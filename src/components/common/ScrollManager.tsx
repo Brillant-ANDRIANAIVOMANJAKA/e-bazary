@@ -4,9 +4,10 @@ import { useLocation } from "react-router-dom";
 /**
  * - Lien avec ancre (/#deals) : defile jusqu'a la section une fois rendue.
  * - Changement de page : remonte en haut.
+ * - Simple changement de filtre (?category=, ?sort=...) : garde la position.
  */
 export function ScrollManager() {
-  const { pathname, search, hash } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
     if (!hash) {
@@ -23,7 +24,7 @@ export function ScrollManager() {
       }
     }, 50);
     return () => window.clearInterval(timer);
-  }, [pathname, search, hash]);
+  }, [pathname, hash]);
 
   return null;
 }

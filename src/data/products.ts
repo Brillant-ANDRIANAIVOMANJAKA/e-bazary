@@ -75,7 +75,7 @@ export const products: Product[] = [
     price: 15000.98,
     oldPrice: 89000.59,
     discount: 75,
-    image: img("photo-1602874801006-e26c4b6e1454"),
+    image: img("photo-1612196808214-b8e1d6145a8c"),
     category: "home",
     rating: 4.5,
     reviews: 64,

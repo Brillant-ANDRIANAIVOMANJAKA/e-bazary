@@ -14,17 +14,17 @@ export function HeroSection() {
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative overflow-hidden rounded-md bg-secondary"
+        className="relative min-h-[320px] overflow-hidden rounded-md bg-secondary sm:min-h-[360px] lg:min-h-[400px]"
       >
         <img
           src={heroBedroom}
           alt="Modern bedroom furniture sale"
           width={1280}
           height={640}
-          className="h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-white/70 via-white/30 to-transparent dark:from-background/70" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-8 text-center">
+        <div className="relative flex min-h-[inherit] flex-col items-center justify-center px-5 py-8 text-center sm:px-8">
           <motion.p
             initial={{ y: 12, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -37,7 +37,7 @@ export function HeroSection() {
             initial={{ y: 16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-2 text-4xl font-extrabold text-brand md:text-6xl"
+            className="mt-2 text-3xl font-extrabold leading-tight text-brand sm:text-4xl md:text-6xl"
           >
             SALE UP TO 50% OFF
           </motion.h1>
@@ -45,7 +45,7 @@ export function HeroSection() {
             initial={{ y: 16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mt-2 max-w-md text-sm text-foreground/70"
+            className="mt-2 max-w-md text-xs text-foreground/70 sm:text-sm"
           >
             They key is to have every key, the key to open every door. We don't seem them, we will never see them.
           </motion.p>
@@ -78,7 +78,7 @@ export function HeroSection() {
           transition={{ delay: 0.3 }}
           className="relative overflow-hidden rounded-md bg-secondary p-4"
         >
-          <p className="text-lg font-extrabold text-brand">Ar 450 000.89</p>
+          <p className="text-base font-extrabold text-brand sm:text-lg">Ar 450 000.89</p>
           <p className="text-xs font-semibold uppercase tracking-wider">Interior Design</p>
           <Link to={shopUrl("furniture")} className="btn-link mt-1">Shop now <ArrowRight className="h-3 w-3" /></Link>
           <img src={promoSofa} alt="Modern sofa" loading="lazy" className="mt-2 h-24 w-full object-contain" />

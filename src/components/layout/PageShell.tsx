@@ -2,14 +2,20 @@ import { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BackToTop } from "@/components/common/BackToTop";
+import { MobileNav } from "@/components/layout/MobileNav";
 
-export function PageShell({ children }: { children: ReactNode }) {
+/**
+ * Layout persistant de la SPA : l'en-tete et le pied de page restent montes,
+ * seul le contenu de la route change (pas d'effet "rechargement").
+ */
+export function AppLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex min-h-screen flex-col bg-background pb-16 md:pb-0">
       <Header />
-      {children}
+      <div className="flex-1">{children}</div>
       <Footer />
       <BackToTop />
+      <MobileNav />
     </div>
   );
 }

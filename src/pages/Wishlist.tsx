@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Heart, ShoppingCart, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { PageShell, PageTitle } from "@/components/layout/PageShell";
+import { PageTitle } from "@/components/layout/PageShell";
 import { useWishlist } from "@/context/WishlistContext";
 import { useCart } from "@/context/CartContext";
 
@@ -17,7 +17,7 @@ const Wishlist = () => {
   };
 
   return (
-    <PageShell>
+    <>
       <main className="container-x py-10">
         <PageTitle title="My Wishlist" subtitle={`${items.length} saved ${items.length === 1 ? "item" : "items"}`} />
 
@@ -79,7 +79,7 @@ const Wishlist = () => {
           </>
         )}
       </main>
-    </PageShell>
+    </>
   );
 };
 

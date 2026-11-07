@@ -25,10 +25,10 @@ export function CountdownTimer({ targetMs = 1000 * 60 * 60 * 12 }: { targetMs?: 
   ];
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5 sm:gap-2" role="timer" aria-label="Offer ends in">
       {cells.map((c) => (
-        <div key={c.l} className="flex h-12 w-12 flex-col items-center justify-center rounded bg-primary text-primary-foreground">
-          <span className="text-base font-bold leading-none">{c.v}</span>
+        <div key={c.l} className="flex h-11 w-11 flex-col sm:h-12 sm:w-12 items-center justify-center rounded bg-primary text-primary-foreground">
+          <span className="text-base font-bold leading-none tabular-nums">{c.v}</span>
           <span className="mt-0.5 text-[9px] opacity-70">{c.l}</span>
         </div>
       ))}

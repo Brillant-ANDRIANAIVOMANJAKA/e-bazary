@@ -93,7 +93,7 @@ export function Header() {
 
       {/* Main bar */}
       <div className="bg-header-bar text-white">
-        <div className="container-x flex h-16 items-center gap-4 lg:gap-6">
+        <div className="container-x flex h-14 items-center gap-3 md:h-16 md:gap-4 lg:gap-6">
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
@@ -146,6 +146,10 @@ export function Header() {
             <Link to="/track" className="hidden md:flex items-center gap-1.5 hover:text-brand transition">
               <Truck className="h-4 w-4" /> Track Order
             </Link>
+            <Link to="/cart" aria-label={`Cart (${count})`} className="btn-icon relative -mr-2 hover:bg-white/10 md:hidden">
+              <ShoppingCart className="h-5 w-5" />
+              <Badge value={count} className="-top-0.5 -right-0.5" />
+            </Link>
             <span className="hidden xl:inline opacity-30">|</span>
             <a href="tel:+261346610839" className="hidden xl:flex items-center gap-1.5 opacity-80 hover:text-brand hover:opacity-100 transition">
               <Phone className="h-4 w-4" /> +261 34 66 108 39
@@ -154,7 +158,7 @@ export function Header() {
         </div>
 
         {/* Search row */}
-        <div className="container-x flex items-center gap-3 pb-4">
+        <div className="container-x flex items-center gap-3 pb-3 md:pb-4">
           <DropdownMenu>
             <DropdownMenuTrigger className="btn btn-primary btn-square hidden h-11 px-4 text-sm md:inline-flex">
               <Menu className="h-4 w-4" /> All Departments <ChevronDown className="h-3.5 w-3.5" />
@@ -197,7 +201,7 @@ export function Header() {
             </button>
           </form>
 
-          <div className="flex items-center gap-1 md:gap-3">
+          <div className="hidden items-center gap-3 md:flex">
             <Link to="/wishlist" aria-label={`Wishlist (${wishCount})`} className="btn-icon relative hover:bg-white/10 hover:text-brand">
               <Heart className="h-5 w-5" />
               <Badge value={wishCount} className="-top-0.5 -right-0.5" />
@@ -222,7 +226,7 @@ export function Header() {
 
       {/* Menu mobile */}
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-        <SheetContent side="left" className="w-80 overflow-y-auto p-0">
+        <SheetContent side="left" className="w-80 overflow-y-auto p-0 [&>button]:right-3 [&>button]:top-3.5 [&>button]:rounded-full [&>button]:p-1.5 [&>button]:text-white [&>button]:opacity-90 [&>button:hover]:bg-white/10 [&>button]:focus:ring-brand [&>button]:focus:ring-offset-0">
           <SheetTitle className="bg-header-bar px-5 py-4 text-base font-extrabold text-white">Menu</SheetTitle>
           <nav className="flex flex-col py-2">
             {NAV_LINKS.map((l) => (

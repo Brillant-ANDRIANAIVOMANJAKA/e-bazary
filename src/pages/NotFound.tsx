@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Home } from "lucide-react";
-import { PageShell } from "@/components/layout/PageShell";
 
 const NotFound = () => (
-  <PageShell>
+  <>
     <main className="container-x py-24 text-center">
       <p className="text-7xl font-extrabold text-brand">404</p>
       <h1 className="mt-2 text-2xl font-bold">Page not found</h1>
@@ -13,7 +12,7 @@ const NotFound = () => (
         <Link to="/shop" className="btn btn-outline btn-md">Browse products <ArrowRight className="h-4 w-4" /></Link>
       </div>
     </main>
-  </PageShell>
+  </>
 );
 
 export default NotFound;

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trash2, ArrowLeft, ArrowRight, ShoppingBag } from "lucide-react";
-import { PageShell, PageTitle } from "@/components/layout/PageShell";
+import { PageTitle } from "@/components/layout/PageShell";
 import { QtyControl } from "@/components/common/QtyControl";
 import { useCart } from "@/context/CartContext";
 
@@ -11,7 +11,7 @@ const Cart = () => {
   const total = subtotal + shipping;
 
   return (
-    <PageShell>
+    <>
       <main className="container-x py-10">
         <PageTitle title="Shopping Cart" />
 
@@ -96,7 +96,7 @@ const Cart = () => {
           </div>
         )}
       </main>
-    </PageShell>
+    </>
   );
 };
 

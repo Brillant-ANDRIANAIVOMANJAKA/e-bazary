@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ChevronRight, ShoppingCart, Heart, Truck, ShieldCheck, RefreshCw, Share2, Zap } from "lucide-react";
 import { toast } from "sonner";
-import { PageShell } from "@/components/layout/PageShell";
 import { Rating } from "@/components/common/Rating";
 import { QtyControl } from "@/components/common/QtyControl";
 import { useWishlist } from "@/context/WishlistContext";
@@ -41,7 +40,7 @@ const ProductDetails = () => {
   const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 5);
 
   return (
-    <PageShell>
+    <>
       <main className="container-x py-6">
         {/* Breadcrumb */}
         <nav className="mb-6 flex items-center gap-2 text-xs text-muted-foreground">
@@ -81,13 +80,13 @@ const ProductDetails = () => {
             {/* Quantity & CTA */}
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <QtyControl value={qty} onChange={setQty} max={product.stock} />
-              <button type="button" onClick={() => add(product, qty)} className="btn btn-primary btn-lg">
+              <button type="button" onClick={() => add(product, qty)} className="btn btn-primary btn-lg flex-1 sm:flex-none">
                 <ShoppingCart className="h-4 w-4" /> Add to Cart
               </button>
               <button
                 type="button"
                 onClick={() => { add(product, qty); navigate("/checkout"); }}
-                className="btn btn-dark btn-lg"
+                className="btn btn-dark btn-lg flex-1 sm:flex-none"
               >
                 <Zap className="h-4 w-4" /> Buy now
               </button>
@@ -130,7 +129,7 @@ const ProductDetails = () => {
           </section>
         )}
       </main>
-    </PageShell>
+    </>
   );
 };
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle2, Copy, Loader2, Lock, Tag, Truck, X } from "lucide-react";
 import { toast } from "sonner";
-import { PageShell, PageTitle } from "@/components/layout/PageShell";
+import { PageTitle } from "@/components/layout/PageShell";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { couponRate, newOrderId, saveOrder } from "@/lib/storage";
@@ -79,7 +79,7 @@ const Checkout = () => {
 
   if (orderId) {
     return (
-      <PageShell>
+      <>
         <main className="container-x py-20 text-center">
           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
             <CheckCircle2 className="mx-auto h-16 w-16 text-brand" />
@@ -98,12 +98,12 @@ const Checkout = () => {
             </div>
           </motion.div>
         </main>
-      </PageShell>
+      </>
     );
   }
 
   return (
-    <PageShell>
+    <>
       <main className="container-x py-10">
         <PageTitle title="Checkout" />
         {items.length === 0 ? (
@@ -193,7 +193,7 @@ const Checkout = () => {
           </form>
         )}
       </main>
-    </PageShell>
+    </>
   );
 };
 

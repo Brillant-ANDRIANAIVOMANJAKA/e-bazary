@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { ChevronRight, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 import { toast } from "sonner";
-import { PageShell } from "@/components/layout/PageShell";
 import { isEmail, readJSON, writeJSON } from "@/lib/storage";
 
 const PAGES: Record<string, { title: string; body: string[] }> = {
@@ -98,7 +97,7 @@ const InfoPage = () => {
   if (!page) return <Navigate to="/404" replace />;
 
   return (
-    <PageShell>
+    <>
       <main className="container-x max-w-3xl py-10">
         <nav className="mb-4 flex items-center gap-2 text-xs text-muted-foreground" aria-label="Breadcrumb">
           <Link to="/" className="hover:text-brand">Home</Link>
@@ -129,7 +128,7 @@ const InfoPage = () => {
           ))}
         </div>
       </main>
-    </PageShell>
+    </>
   );
 };
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, LogOut, Package, ShoppingCart, User } from "lucide-react";
 import { toast } from "sonner";
-import { PageShell, PageTitle } from "@/components/layout/PageShell";
+import { PageTitle } from "@/components/layout/PageShell";
 import { useAuth } from "@/context/AuthContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useCart } from "@/context/CartContext";
@@ -29,7 +29,7 @@ const Account = () => {
   if (user) {
     const orders = getOrders().filter((o) => o.email.toLowerCase() === user.email.toLowerCase());
     return (
-      <PageShell>
+      <>
         <main className="container-x py-10">
           <PageTitle title={`Hello, ${user.name}`} subtitle={user.email} />
           <div className="grid gap-4 sm:grid-cols-3">
@@ -68,12 +68,12 @@ const Account = () => {
             <LogOut className="h-4 w-4" /> Sign out
           </button>
         </main>
-      </PageShell>
+      </>
     );
   }
 
   return (
-    <PageShell>
+    <>
       <main className="container-x flex justify-center py-12">
         <div className="w-full max-w-md rounded-md border border-border bg-card p-6 shadow-sm">
           <div className="mb-6 grid grid-cols-2 rounded-full bg-secondary p-1">
@@ -111,7 +111,7 @@ const Account = () => {
           </p>
         </div>
       </main>
-    </PageShell>
+    </>
   );
 };
 

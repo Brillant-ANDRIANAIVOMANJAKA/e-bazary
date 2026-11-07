@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Check, PackageSearch, Search } from "lucide-react";
-import { PageShell, PageTitle } from "@/components/layout/PageShell";
+import { PageTitle } from "@/components/layout/PageShell";
 import { findOrder, getOrders, orderStatus } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +18,7 @@ const TrackOrder = () => {
   };
 
   return (
-    <PageShell>
+    <>
       <main className="container-x max-w-3xl py-10">
         <PageTitle title="Track your order" subtitle="Enter the order number you received after checkout (e.g. EM-AB12CD34)." />
 
@@ -90,7 +90,7 @@ const TrackOrder = () => {
           </div>
         )}
       </main>
-    </PageShell>
+    </>
   );
 };
 

@@ -4,6 +4,9 @@ export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
+  // Les effets hover: ne s'appliquent que sur les appareils avec souris
+  // (evite les etats "colles" apres un tap sur mobile).
+  future: { hoverOnlyWhenSupported: true },
   theme: {
     container: { center: true, padding: "1rem", screens: { "2xl": "1400px" } },
     extend: {

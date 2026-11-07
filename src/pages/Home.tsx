@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, ShoppingCart } from "lucide-react";
-import { PageShell } from "@/components/layout/PageShell";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { HeroSection } from "@/components/home/HeroSection";
 import { GiftBanner } from "@/components/home/GiftBanner";
@@ -52,7 +51,7 @@ const Home = () => {
   }, [tabCategory]);
 
   return (
-    <PageShell>
+    <>
       <main className="container-x py-6">
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
           <div ref={leftColRef} className="hidden lg:block lg:sticky lg:self-start" style={{ top: leftTop }}>
@@ -78,13 +77,13 @@ const Home = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className="flex gap-4 rounded-md border border-border bg-card p-4 hover:shadow-lg transition-shadow"
+                    className="flex flex-col gap-4 rounded-md border border-border bg-card p-4 transition-shadow hover:shadow-lg sm:flex-row"
                   >
-                    <Link to={`/product/${p.id}`} className="relative h-40 w-40 shrink-0 overflow-hidden rounded bg-muted">
+                    <Link to={`/product/${p.id}`} className="relative aspect-[4/3] w-full shrink-0 overflow-hidden rounded bg-muted sm:aspect-auto sm:h-40 sm:w-40">
                       <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 hover:scale-105" />
                       <span className="badge-sale">-{p.discount}%</span>
                     </Link>
-                    <div className="flex flex-1 flex-col">
+                    <div className="flex min-w-0 flex-1 flex-col">
                       <Link to={`/product/${p.id}`} className="line-clamp-2 text-sm font-semibold hover:text-brand">{p.name}</Link>
                       <div className="mt-1 flex items-baseline gap-2">
                         <span className="text-base font-bold text-brand">Ar {p.price.toFixed(2)}</span>
@@ -166,7 +165,7 @@ const Home = () => {
           </div>
         </div>
       </main>
-    </PageShell>
+    </>
   );
 };
 

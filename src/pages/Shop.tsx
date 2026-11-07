@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ChevronRight, PackageSearch, X } from "lucide-react";
-import { PageShell } from "@/components/layout/PageShell";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { categories, categoryLabel, products, shopUrl } from "@/data/products";
@@ -49,7 +48,7 @@ const Shop = () => {
   };
 
   return (
-    <PageShell>
+    <>
       <main className="container-x py-6">
         <nav className="mb-4 flex items-center gap-2 text-xs text-muted-foreground" aria-label="Breadcrumb">
           <Link to="/" className="hover:text-brand">Home</Link>
@@ -123,7 +122,7 @@ const Shop = () => {
           </div>
         </div>
       </main>
-    </PageShell>
+    </>
   );
 };
 
