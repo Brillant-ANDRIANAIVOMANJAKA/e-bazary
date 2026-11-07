@@ -84,7 +84,7 @@ const Checkout = () => {
               </ul>
               <dl className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
                 <div className="flex justify-between"><dt>Subtotal</dt><dd>Ar{subtotal.toFixed(2)}</dd></div>
-                <div className="flex justify-between"><dt>Shipping</dt><dd>{shipping === 0 ? "FREE" : `ArAr{shipping.toFixed(2)}`}</dd></div>
+                <div className="flex justify-between"><dt>Shipping</dt><dd>{shipping === 0 ? "FREE" : `Ar ${shipping.toFixed(2)}`}</dd></div>
                 <div className="flex justify-between text-base font-bold pt-2 border-t border-border">
                   <dt>Total</dt><dd className="text-brand">Ar{total.toFixed(2)}</dd>
                 </div>

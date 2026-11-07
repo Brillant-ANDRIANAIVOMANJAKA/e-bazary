@@ -46,9 +46,9 @@ const useFormField = () => {
   return {
     id,
     name: fieldContext.name,
-    formItemId: `Ar{id}-form-item`,
-    formDescriptionId: `Ar{id}-form-item-description`,
-    formMessageId: `Ar{id}-form-item-message`,
+    formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formMessageId: `${id}-form-item-message`,
     ...fieldState,
   };
 };
@@ -90,7 +90,7 @@ const FormControl = React.forwardRef<React.ElementRef<typeof Slot>, React.Compon
       <Slot
         ref={ref}
         id={formItemId}
-        aria-describedby={!error ? `Ar{formDescriptionId}` : `Ar{formDescriptionId} Ar{formMessageId}`}
+        aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
         aria-invalid={!!error}
         {...props}
       />

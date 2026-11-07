@@ -63,7 +63,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     items: state.items,
     add: (p, qty) => {
       dispatch({ type: "ADD", product: p, qty });
-      toast.success(`Ar{p.name} added to cart`);
+      toast.success(`${p.name} added to cart`);
     },
     remove: (id) => { dispatch({ type: "REMOVE", id }); toast("Removed from cart"); },
     update: (id, qty) => dispatch({ type: "UPDATE", id, qty }),

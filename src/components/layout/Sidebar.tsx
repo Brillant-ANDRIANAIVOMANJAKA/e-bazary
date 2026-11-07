@@ -18,7 +18,7 @@ export function Sidebar({ active, onSelect }: Props) {
           <li>
             <button
               onClick={() => onSelect?.(undefined)}
-              className={`flex w-full items-center justify-between px-4 py-2.5 text-sm border-b border-border transition-colors Ar{
+              className={`flex w-full items-center justify-between px-4 py-2.5 text-sm border-b border-border transition-colors ${
                 !active ? "bg-accent text-brand font-semibold" : "hover:bg-secondary"
               }`}
             >
@@ -35,7 +35,7 @@ export function Sidebar({ active, onSelect }: Props) {
             >
               <button
                 onClick={() => onSelect?.(c.id)}
-                className={`flex w-full items-center justify-between px-4 py-2.5 text-sm border-b border-border last:border-0 transition-colors Ar{
+                className={`flex w-full items-center justify-between px-4 py-2.5 text-sm border-b border-border last:border-0 transition-colors ${
                   active === c.id ? "bg-accent text-brand font-semibold" : "hover:bg-secondary"
                 }`}
               >

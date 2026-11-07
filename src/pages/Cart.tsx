@@ -40,7 +40,7 @@ const Cart = () => {
                     exit={{ opacity: 0, x: -20 }}
                     className="grid grid-cols-[1fr_40px] md:grid-cols-[1fr_120px_120px_120px_40px] items-center gap-4 border-b border-border p-4 last:border-0"
                   >
-                    <Link to={`/product/Ar{item.id}`} className="flex items-center gap-3 min-w-0">
+                    <Link to={`/product/${item.id}`} className="flex items-center gap-3 min-w-0">
                       <img src={item.image} alt={item.name} className="h-16 w-16 rounded object-cover bg-muted shrink-0" />
                       <div className="min-w-0">
                         <p className="line-clamp-2 text-sm font-semibold">{item.name}</p>
@@ -71,7 +71,7 @@ const Cart = () => {
                 <h2 className="mb-4 text-lg font-bold">Order Summary</h2>
                 <dl className="space-y-2 text-sm">
                   <div className="flex justify-between"><dt>Subtotal</dt><dd className="font-semibold">Ar{subtotal.toFixed(2)}</dd></div>
-                  <div className="flex justify-between"><dt>Shipping</dt><dd className="font-semibold">{shipping === 0 ? "FREE" : `ArAr{shipping.toFixed(2)}`}</dd></div>
+                  <div className="flex justify-between"><dt>Shipping</dt><dd className="font-semibold">{shipping === 0 ? "FREE" : `Ar ${shipping.toFixed(2)}`}</dd></div>
                   <div className="border-t border-border pt-2 flex justify-between text-base font-bold">
                     <dt>Total</dt><dd className="text-brand">Ar{total.toFixed(2)}</dd>
                   </div>

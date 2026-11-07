@@ -23,7 +23,7 @@ export function SectionHeader({
               <button
                 key={t}
                 onClick={() => onTabChange?.(t)}
-                className={`text-sm font-medium uppercase tracking-wide transition-colors Ar{
+                className={`text-sm font-medium uppercase tracking-wide transition-colors ${
                   active === t ? "text-brand" : "text-muted-foreground hover:text-foreground"
                 }`}
               >

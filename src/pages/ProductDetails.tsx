@@ -46,7 +46,7 @@ const ProductDetails = () => {
             <div className="mt-2 flex items-center gap-2">
               <div className="flex items-center text-amber-400">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={`h-4 w-4 Ar{i < Math.round(product.rating) ? "fill-current" : "opacity-30"}`} />
+                  <Star key={i} className={`h-4 w-4 ${i < Math.round(product.rating) ? "fill-current" : "opacity-30"}`} />
                 ))}
               </div>
               <span className="text-sm text-muted-foreground">({product.reviews} reviews)</span>

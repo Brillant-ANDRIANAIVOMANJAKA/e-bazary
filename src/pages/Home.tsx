@@ -90,7 +90,7 @@ const Home = () => {
                       <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-secondary">
                         <div
                           className="h-full bg-brand"
-                          style={{ width: `Ar{(p.sold / (p.sold + p.stock)) * 100}%` }}
+                          style={{ width: `${(p.sold / (p.sold + p.stock)) * 100}%` }}
                         />
                       </div>
                       <p className="mt-3 text-[10px] font-bold uppercase">Hurry Up! Offers end in:</p>
@@ -148,7 +148,7 @@ const Home = () => {
             {/* Filtered all-products section (search/category) */}
             {(active || query) && (
               <section className="mt-10">
-                <SectionHeader title={query ? `Results for "Ar{query}"` : `Category: Ar{categories.find(c => c.id === active)?.label}`} />
+                <SectionHeader title={query ? `Results for "${query}"` : `Category: ${categories.find(c => c.id === active)?.label}`} />
                 {filtered.length === 0 ? (
                   <p className="py-10 text-center text-muted-foreground">No products found.</p>
                 ) : (

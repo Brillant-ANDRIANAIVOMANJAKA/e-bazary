@@ -19,7 +19,7 @@ export function ProductCard({ product, index = 0 }: Props) {
       whileHover={{ y: -4 }}
       className="product-card group flex flex-col"
     >
-      <Link to={`/product/Ar{product.id}`} className="relative block aspect-square overflow-hidden bg-muted">
+      <Link to={`/product/${product.id}`} className="relative block aspect-square overflow-hidden bg-muted">
         <motion.img
           src={product.image}
           alt={product.name}
@@ -51,11 +51,11 @@ export function ProductCard({ product, index = 0 }: Props) {
       <div className="flex flex-1 flex-col gap-1.5 p-3">
         <div className="flex items-center gap-1 text-amber-400">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className={`h-3 w-3 Ar{i < Math.round(product.rating) ? "fill-current" : "opacity-30"}`} />
+            <Star key={i} className={`h-3 w-3 ${i < Math.round(product.rating) ? "fill-current" : "opacity-30"}`} />
           ))}
           <span className="ml-1 text-[10px] text-muted-foreground">({product.reviews})</span>
         </div>
-        <Link to={`/product/Ar{product.id}`} className="line-clamp-2 text-sm font-medium leading-snug hover:text-brand transition-colors">
+        <Link to={`/product/${product.id}`} className="line-clamp-2 text-sm font-medium leading-snug hover:text-brand transition-colors">
           {product.name}
         </Link>
         <div className="mt-auto flex items-baseline gap-2 pt-1">

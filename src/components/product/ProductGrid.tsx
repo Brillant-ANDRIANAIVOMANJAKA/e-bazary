@@ -10,7 +10,7 @@ export function ProductGrid({ products, columns = 5 }: Props) {
     5: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
   }[columns];
   return (
-    <div className={`grid gap-4 Ar{colClass}`}>
+    <div className={`grid gap-4 ${colClass}`}>
       {products.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
     </div>
   );
