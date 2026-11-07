@@ -1,7 +1,22 @@
-import { Gift, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { Gift, Copy, Check } from "lucide-react";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
+
+const CODE = "Brillant2026";
 
 export function GiftBanner() {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(CODE);
+    } catch {
+      /* presse-papiers indisponible : le code reste affiche */
+    }
+    setCopied(true);
+    toast.success(`Coupon ${CODE} copied — use it at checkout for 10% off`);
+    window.setTimeout(() => setCopied(false), 2500);
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -18,8 +33,8 @@ export function GiftBanner() {
           <span className="font-bold text-brand">Brillant2026</span>
         </p>
       </div>
-      <button className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2 text-xs font-bold uppercase text-brand-foreground hover:bg-brand-hover transition">
-        Get Coupon <ArrowRight className="h-3 w-3" />
+      <button type="button" onClick={copy} className="btn btn-primary btn-sm shrink-0">
+        {copied ? <><Check className="h-3.5 w-3.5" /> Copied</> : <><Copy className="h-3.5 w-3.5" /> Get Coupon</>}
       </button>
     </motion.div>
   );

@@ -6,7 +6,7 @@ import {
   Shirt,
   Smartphone,
   Sofa,
-  Sparkles,
+  HeartPulse,
   type LucideIcon,
 } from "lucide-react";
 
@@ -41,7 +41,7 @@ export const categories: { id: Category; label: string; icon: LucideIcon }[] = [
   { id: "furniture", label: "Furniture & Home", icon: Sofa },
   { id: "fashion", label: "Fashion & Apparel", icon: Shirt },
   { id: "electronics", label: "Electronics", icon: Smartphone },
-  { id: "beauty", label: "Health & Beauty", icon: Sparkles },
+  { id: "beauty", label: "Health & Beauty", icon: HeartPulse },
   { id: "sports", label: "Sports & Toys", icon: Dumbbell },
   { id: "home", label: "Home Textile", icon: BedDouble },
   { id: "toys", label: "Gifts & Games", icon: Gift },
@@ -298,3 +298,13 @@ export const products: Product[] = [
 ];
 
 export const findProduct = (id: string) => products.find((p) => p.id === id);
+/** Lien vers la boutique, filtree par categorie et/ou recherche. */
+export const shopUrl = (category?: Category, q?: string) => {
+  const params = new URLSearchParams();
+  if (category) params.set("category", category);
+  if (q) params.set("q", q);
+  const s = params.toString();
+  return s ? `/shop?${s}` : "/shop";
+};
+
+export const categoryLabel = (id?: string | null) => categories.find((c) => c.id === id)?.label;

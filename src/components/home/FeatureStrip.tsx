@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
 import { Truck, ShieldCheck, Gift, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 
 const features = [
-  { icon: Truck, title: "Free Delivery", text: "On Orders Over Ar4900.86" },
-  { icon: ShieldCheck, title: "Order Protection", text: "Secured Information" },
-  { icon: Gift, title: "Promotion Gift", text: "Special Offers!" },
-  { icon: RefreshCw, title: "Money Back", text: "Return over 30 Days" },
+  { icon: Truck, title: "Free Delivery", text: "On Orders Over Ar 4900", to: "/page/shipping" },
+  { icon: ShieldCheck, title: "Order Protection", text: "Secured Information", to: "/page/privacy" },
+  { icon: Gift, title: "Promotion Gift", text: "Special Offers!", to: "/page/help" },
+  { icon: RefreshCw, title: "Money Back", text: "Return over 30 Days", to: "/page/returns" },
 ];
 
 export function FeatureStrip() {
@@ -19,13 +20,17 @@ export function FeatureStrip() {
           viewport={{ once: true }}
           transition={{ delay: i * 0.08 }}
           whileHover={{ y: -2 }}
-          className="flex items-center gap-3 rounded-md border border-border bg-card p-4 transition-shadow hover:shadow-lg"
         >
-          <f.icon className="h-8 w-8 text-brand shrink-0" />
-          <div>
-            <p className="text-sm font-bold">{f.title}</p>
-            <p className="text-xs text-muted-foreground">{f.text}</p>
-          </div>
+          <Link
+            to={f.to}
+            className="group flex h-full items-center gap-3 rounded-md border border-border bg-card p-4 transition hover:border-brand hover:shadow-lg"
+          >
+            <f.icon className="h-8 w-8 shrink-0 text-brand transition-transform group-hover:scale-110" />
+            <div>
+              <p className="text-sm font-bold group-hover:text-brand">{f.title}</p>
+              <p className="text-xs text-muted-foreground">{f.text}</p>
+            </div>
+          </Link>
         </motion.div>
       ))}
     </div>

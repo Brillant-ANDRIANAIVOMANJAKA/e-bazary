@@ -1,23 +1,73 @@
-import { Search, ShoppingCart, Heart, User, Phone, Globe, Truck, Menu, Sun, Moon } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Search, ShoppingCart, Heart, User, Phone, Truck, Menu, Sun, Moon, ChevronDown, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useTheme } from "@/context/ThemeContext";
-import { useSearch } from "@/context/SearchContext";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { useWishlist } from "@/context/WishlistContext";
+import { useAuth } from "@/context/AuthContext";
+import { categories, shopUrl, Category } from "@/data/products";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Sheet, SheetClose, SheetContent, SheetTitle } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
-export function Header({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
+export const NAV_LINKS = [
+  { to: "/", label: "Home" },
+  { to: "/shop", label: "Shop" },
+  { to: "/#deals", label: "Deals" },
+  { to: "/#trending", label: "Best-selling" },
+  { to: "/#blog", label: "Blog" },
+  { to: "/page/contact", label: "Contact" },
+];
+
+function Badge({ value, className }: { value: number; className?: string }) {
+  if (value <= 0) return null;
+  return (
+    <motion.span
+      key={value}
+      initial={{ scale: 0.5 }}
+      animate={{ scale: 1 }}
+      className={cn(
+        "absolute flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1 text-[10px] font-bold text-brand-foreground",
+        className,
+      )}
+    >
+      {value > 99 ? "99+" : value}
+    </motion.span>
+  );
+}
+
+export function Header() {
   const { count, subtotal } = useCart();
+  const { count: wishCount } = useWishlist();
+  const { user, logout } = useAuth();
   const { theme, toggle } = useTheme();
-  const { query, setQuery } = useSearch();
   const navigate = useNavigate();
-  const [local, setLocal] = useState(query);
+  const location = useLocation();
+  const [params] = useSearchParams();
+  const [q, setQ] = useState(params.get("q") ?? "");
+  const [cat, setCat] = useState(params.get("category") ?? "");
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Garde le champ de recherche synchronise avec l'URL.
+  useEffect(() => {
+    setQ(params.get("q") ?? "");
+    setCat(params.get("category") ?? "");
+  }, [params]);
 
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setQuery(local);
-    navigate("/");
+    navigate(shopUrl((cat || undefined) as Category | undefined, q.trim() || undefined));
   };
+
+  const isActive = (to: string) =>
+    to.includes("#") ? location.pathname === "/" && location.hash === to.slice(1) : location.pathname === to && !location.hash;
 
   return (
     <header className="w-full">
@@ -25,11 +75,16 @@ export function Header({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
       <div className="bg-header-top text-white/80 text-xs">
         <div className="container-x flex h-9 items-center justify-between">
           <p className="hidden md:block">
-            Welcome to <span className="font-semibold text-white">eMarket</span> · Wrap new offers, free shipping over Ar4900 — Code:{" "}
+            Welcome to <span className="font-semibold text-white">eMarket</span> · Free shipping over Ar4900 — Code:{" "}
             <span className="font-semibold text-brand">Brillant2026</span>
           </p>
-          <div className="flex items-center gap-4">
-            <button onClick={toggle} aria-label="Toggle theme" className="hover:text-white transition">
+          <div className="ml-auto flex items-center gap-1">
+            <button
+              type="button"
+              onClick={toggle}
+              aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+              className="btn-icon h-7 w-7 hover:bg-white/10 hover:text-white"
+            >
               {theme === "light" ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
             </button>
           </div>
@@ -38,16 +93,19 @@ export function Header({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
 
       {/* Main bar */}
       <div className="bg-header-bar text-white">
-        <div className="container-x flex h-16 items-center gap-6">
-          <button onClick={onToggleSidebar} className="lg:hidden p-2 -ml-2"><Menu className="h-5 w-5" /></button>
+        <div className="container-x flex h-16 items-center gap-4 lg:gap-6">
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            className="btn-icon -ml-2 lg:hidden hover:bg-white/10"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
 
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="h-9 w-9 rounded-full overflow-hidden">
-              <img
-                src="/e-market.png"
-                alt="profile"
-                className="h-full w-full object-cover"
-              />
+              <img src="/e-market.png" alt="e-market logo" className="h-full w-full object-cover" />
             </div>
             <div className="leading-tight">
               <p className="font-extrabold text-lg tracking-tight">e-market</p>
@@ -55,26 +113,41 @@ export function Header({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
             </div>
           </Link>
 
-          {/* Nav */}
           <nav className="hidden lg:flex items-center">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/" className="nav-link">Features</Link>
-            <Link to="/" className="nav-link">Best-selling</Link>
-            <Link to="/" className="nav-link">Deal</Link>
-            <Link to="/" className="nav-link">Shop</Link>
-            <Link to="/" className="nav-link">Blog</Link>
+            {NAV_LINKS.map((l) => (
+              <Link key={l.to} to={l.to} className={cn("nav-link", isActive(l.to) && "text-brand")}>
+                {l.label}
+              </Link>
+            ))}
           </nav>
 
           <div className="ml-auto flex items-center gap-3 text-xs">
-            <Link to="/" className="hidden md:flex items-center gap-1.5 hover:text-brand transition">
-              <User className="h-4 w-4" /> Login / Register
-            </Link>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="hidden md:flex items-center gap-1.5 rounded px-2 py-1 hover:text-brand transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+                  <User className="h-4 w-4" /> Hi, {user.name.split(" ")[0]} <ChevronDown className="h-3 w-3" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onSelect={() => navigate("/account")}>My account</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => navigate("/track")}>My orders</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => navigate("/wishlist")}>Wishlist</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onSelect={logout}>
+                    <LogOut className="mr-2 h-4 w-4" /> Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/account" className="hidden md:flex items-center gap-1.5 hover:text-brand transition">
+                <User className="h-4 w-4" /> Login / Register
+              </Link>
+            )}
             <span className="hidden md:inline opacity-30">|</span>
-            <Link to="/" className="hidden md:flex items-center gap-1.5 hover:text-brand transition">
+            <Link to="/track" className="hidden md:flex items-center gap-1.5 hover:text-brand transition">
               <Truck className="h-4 w-4" /> Track Order
             </Link>
-            <span className="hidden md:inline opacity-30">|</span>
-            <a href="tel:+11234567890" className="hidden md:flex items-center gap-1.5 opacity-80">
+            <span className="hidden xl:inline opacity-30">|</span>
+            <a href="tel:+261346610839" className="hidden xl:flex items-center gap-1.5 opacity-80 hover:text-brand hover:opacity-100 transition">
               <Phone className="h-4 w-4" /> +261 34 66 108 39
             </a>
           </div>
@@ -82,50 +155,105 @@ export function Header({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
 
         {/* Search row */}
         <div className="container-x flex items-center gap-3 pb-4">
-          <button className="hidden md:flex items-center gap-2 h-11 rounded bg-brand px-4 text-sm font-bold text-brand-foreground hover:bg-brand-hover transition">
-            <Menu className="h-4 w-4" /> All Departments
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="btn btn-primary btn-square hidden h-11 px-4 text-sm md:inline-flex">
+              <Menu className="h-4 w-4" /> All Departments <ChevronDown className="h-3.5 w-3.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-60">
+              <DropdownMenuItem onSelect={() => navigate("/shop")} className="font-semibold">
+                All products
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {categories.map((c) => (
+                <DropdownMenuItem key={c.id} onSelect={() => navigate(shopUrl(c.id))} className="gap-2">
+                  <c.icon className="h-4 w-4 text-brand" /> {c.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-          <form onSubmit={submitSearch} className="flex-1 flex h-11 overflow-hidden rounded bg-white text-foreground">
-            <select className="hidden md:block h-full bg-secondary px-3 text-xs font-medium border-r border-border outline-none">
-              <option>All Categories</option>
+          <form onSubmit={submitSearch} role="search" className="flex-1 flex h-11 overflow-hidden rounded-md bg-white text-foreground dark:bg-card focus-within:ring-2 focus-within:ring-brand">
+            <select
+              value={cat}
+              onChange={(e) => setCat(e.target.value)}
+              aria-label="Category"
+              className="hidden md:block h-full max-w-[170px] bg-secondary px-3 text-xs font-medium border-r border-border outline-none cursor-pointer"
+            >
+              <option value="">All Categories</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>{c.label}</option>
+              ))}
             </select>
             <input
-              value={local}
-              onChange={(e) => setLocal(e.target.value)}
-              placeholder="Enter your keyword..."
-              className="flex-1 px-4 text-sm outline-none bg-transparent"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              type="search"
+              aria-label="Search products"
+              placeholder="Search products..."
+              className="flex-1 min-w-0 px-4 text-sm outline-none bg-transparent"
             />
-            <button type="submit" className="h-full w-12 bg-brand text-brand-foreground hover:bg-brand-hover transition flex items-center justify-center">
+            <button type="submit" aria-label="Search" className="h-full w-12 bg-brand text-brand-foreground hover:bg-brand-hover transition flex items-center justify-center active:scale-95">
               <Search className="h-4 w-4" />
             </button>
           </form>
 
-          <div className="hidden md:flex items-center gap-3">
-            <button aria-label="Wishlist" className="relative p-2 hover:text-brand transition">
+          <div className="flex items-center gap-1 md:gap-3">
+            <Link to="/wishlist" aria-label={`Wishlist (${wishCount})`} className="btn-icon relative hover:bg-white/10 hover:text-brand">
               <Heart className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-brand text-[10px] flex items-center justify-center font-bold">8</span>
-            </button>
-            <motion.div whileHover={{ scale: 1.04 }} className="flex items-center gap-2">
-              <Link to="/cart" className="relative flex items-center gap-2 rounded bg-white/10 px-3 py-2 hover:bg-white/15 transition">
-                <div className="relative">
-                  <ShoppingCart className="h-5 w-5" />
-                  <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-brand text-[10px] flex items-center justify-center font-bold">{count}</span>
-                </div>
-                <div className="text-left leading-tight">
-                  <p className="text-[10px] opacity-70">MY CART</p>
-                  <p className="text-sm font-bold">Ar{subtotal.toFixed(2)}</p>
-                </div>
-              </Link>
-            </motion.div>
+              <Badge value={wishCount} className="-top-0.5 -right-0.5" />
+            </Link>
+            <Link
+              to="/cart"
+              aria-label={`Cart (${count})`}
+              className="relative flex items-center gap-2 rounded-md p-2 transition hover:bg-white/15 md:bg-white/10 md:px-3"
+            >
+              <div className="relative">
+                <ShoppingCart className="h-5 w-5" />
+                <Badge value={count} className="-top-2 -right-2" />
+              </div>
+              <div className="hidden text-left leading-tight md:block">
+                <p className="text-[10px] opacity-70">MY CART</p>
+                <p className="text-sm font-bold">Ar {subtotal.toFixed(2)}</p>
+              </div>
+            </Link>
           </div>
-
-          <Link to="/cart" className="md:hidden relative p-2">
-            <ShoppingCart className="h-5 w-5" />
-            {count > 0 && <span className="absolute top-0 right-0 h-4 w-4 rounded-full bg-brand text-[10px] flex items-center justify-center font-bold">{count}</span>}
-          </Link>
         </div>
       </div>
+
+      {/* Menu mobile */}
+      <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+        <SheetContent side="left" className="w-80 overflow-y-auto p-0">
+          <SheetTitle className="bg-header-bar px-5 py-4 text-base font-extrabold text-white">Menu</SheetTitle>
+          <nav className="flex flex-col py-2">
+            {NAV_LINKS.map((l) => (
+              <SheetClose asChild key={l.to}>
+                <Link to={l.to} className="px-5 py-3 text-sm font-semibold hover:bg-secondary hover:text-brand">{l.label}</Link>
+              </SheetClose>
+            ))}
+          </nav>
+          <p className="border-t border-border px-5 pt-4 pb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Categories</p>
+          <ul className="pb-2">
+            {categories.map((c) => (
+              <li key={c.id}>
+                <SheetClose asChild>
+                  <Link to={shopUrl(c.id)} className="flex items-center gap-3 px-5 py-2.5 text-sm hover:bg-secondary hover:text-brand">
+                    <c.icon className="h-4 w-4 text-brand" /> {c.label}
+                  </Link>
+                </SheetClose>
+              </li>
+            ))}
+          </ul>
+          <div className="grid gap-2 border-t border-border p-5">
+            <SheetClose asChild>
+              <Link to="/account" className="btn btn-outline btn-md"><User className="h-4 w-4" /> {user ? "My account" : "Login / Register"}</Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link to="/track" className="btn btn-outline btn-md"><Truck className="h-4 w-4" /> Track order</Link>
+            </SheetClose>
+            <a href="tel:+261346610839" className="btn btn-ghost btn-md"><Phone className="h-4 w-4" /> +261 34 66 108 39</a>
+          </div>
+        </SheetContent>
+      </Sheet>
     </header>
   );
 }

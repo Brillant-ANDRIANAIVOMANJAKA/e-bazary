@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { shopUrl } from "@/data/products";
 import { ArrowRight } from "lucide-react";
 import heroBedroom from "@/assets/hero-bedroom.jpg";
 import promoPillows from "@/assets/promo-pillows.jpg";
@@ -47,13 +49,11 @@ export function HeroSection() {
           >
             They key is to have every key, the key to open every door. We don't seem them, we will never see them.
           </motion.p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-bold text-brand-foreground hover:bg-brand-hover transition"
-          >
-            Shop Now <ArrowRight className="h-4 w-4" />
-          </motion.button>
+          <motion.div initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}>
+            <Link to={shopUrl("furniture")} className="btn btn-primary btn-lg mt-5">
+              Shop Now <ArrowRight className="h-4 w-4" />
+            </Link>
+          </motion.div>
         </div>
       </motion.div>
 
@@ -63,11 +63,13 @@ export function HeroSection() {
           initial={{ x: 20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="relative overflow-hidden rounded-md bg-gradient-to-br from-amber-100 to-orange-200 p-4 dark:from-amber-900/30 dark:to-orange-900/30"
+          whileHover={{ y: -3 }}
+          className="group relative overflow-hidden rounded-md bg-gradient-to-br from-amber-100 to-orange-200 p-4 dark:from-amber-900/30 dark:to-orange-900/30"
         >
           <p className="text-xs font-bold uppercase tracking-widest text-foreground/70">Colorful</p>
           <p className="text-lg font-extrabold">Pillows</p>
-          <p className="mt-1 text-xs">Starts at <span className="text-brand font-bold">Ar29000.99</span></p>
+          <p className="mt-1 text-xs">Starts at <span className="text-brand font-bold">Ar 29000.99</span></p>
+          <Link to={shopUrl("home")} className="absolute inset-0" aria-label="Shop colorful pillows" />
           <img src={promoPillows} alt="Colorful pillows" loading="lazy" className="mt-2 h-24 w-full object-contain" />
         </motion.div>
         <motion.div
@@ -76,9 +78,9 @@ export function HeroSection() {
           transition={{ delay: 0.3 }}
           className="relative overflow-hidden rounded-md bg-secondary p-4"
         >
-          <p className="text-lg font-extrabold text-brand">Ar450 000.89</p>
+          <p className="text-lg font-extrabold text-brand">Ar 450 000.89</p>
           <p className="text-xs font-semibold uppercase tracking-wider">Interior Design</p>
-          <a href="#" className="mt-1 inline-block text-xs font-bold uppercase border-b border-brand text-brand">Shop now →</a>
+          <Link to={shopUrl("furniture")} className="btn-link mt-1">Shop now <ArrowRight className="h-3 w-3" /></Link>
           <img src={promoSofa} alt="Modern sofa" loading="lazy" className="mt-2 h-24 w-full object-contain" />
         </motion.div>
       </div>

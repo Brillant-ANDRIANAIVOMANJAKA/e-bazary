@@ -1,32 +1,53 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { ChevronRight, Minus, Plus, ShoppingCart, Heart, Star, Truck, ShieldCheck, RefreshCw } from "lucide-react";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { useEffect, useState } from "react";
+import { ChevronRight, ShoppingCart, Heart, Truck, ShieldCheck, RefreshCw, Share2, Zap } from "lucide-react";
+import { toast } from "sonner";
+import { PageShell } from "@/components/layout/PageShell";
+import { Rating } from "@/components/common/Rating";
+import { QtyControl } from "@/components/common/QtyControl";
+import { useWishlist } from "@/context/WishlistContext";
+import { cn } from "@/lib/utils";
 import { ProductGrid } from "@/components/product/ProductGrid";
-import { findProduct, products } from "@/data/products";
+import { categoryLabel, findProduct, products, shopUrl } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const product = id ? findProduct(id) : undefined;
   const { add } = useCart();
+  const wishlist = useWishlist();
+  const navigate = useNavigate();
   const [qty, setQty] = useState(1);
+  useEffect(() => setQty(1), [id]);
 
   if (!product) return <Navigate to="/" replace />;
+
+  const liked = wishlist.has(product.id);
+
+  const share = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) await navigator.share({ title: product.name, url });
+      else {
+        await navigator.clipboard.writeText(url);
+        toast.success("Link copied to clipboard");
+      }
+    } catch {
+      /* partage annule */
+    }
+  };
 
   const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <PageShell>
       <main className="container-x py-6">
         {/* Breadcrumb */}
         <nav className="mb-6 flex items-center gap-2 text-xs text-muted-foreground">
           <Link to="/" className="hover:text-brand">Home</Link>
           <ChevronRight className="h-3 w-3" />
-          <span className="capitalize">{product.category}</span>
+          <Link to={shopUrl(product.category)} className="hover:text-brand">{categoryLabel(product.category)}</Link>
           <ChevronRight className="h-3 w-3" />
           <span className="text-foreground">{product.name}</span>
         </nav>
@@ -43,18 +64,11 @@ const ProductDetails = () => {
 
           <div>
             <h1 className="text-3xl font-extrabold">{product.name}</h1>
-            <div className="mt-2 flex items-center gap-2">
-              <div className="flex items-center text-amber-400">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={`h-4 w-4 ${i < Math.round(product.rating) ? "fill-current" : "opacity-30"}`} />
-                ))}
-              </div>
-              <span className="text-sm text-muted-foreground">({product.reviews} reviews)</span>
-            </div>
+            <Rating value={product.rating} reviews={product.reviews} size="md" className="mt-3" />
 
             <div className="mt-4 flex items-baseline gap-3">
-              <span className="text-3xl font-extrabold text-brand">Ar{product.price}</span>
-              {product.oldPrice && <span className="text-lg line-through text-muted-foreground">Ar{product.oldPrice}</span>}
+              <span className="text-3xl font-extrabold text-brand">Ar {product.price.toFixed(2)}</span>
+              {product.oldPrice && <span className="text-lg line-through text-muted-foreground">Ar {product.oldPrice.toFixed(2)}</span>}
             </div>
 
             <p className="mt-4 text-sm text-muted-foreground">{product.description}</p>
@@ -66,24 +80,28 @@ const ProductDetails = () => {
 
             {/* Quantity & CTA */}
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <div className="flex h-12 items-center rounded border border-border">
-                <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="flex h-full w-12 items-center justify-center hover:bg-secondary">
-                  <Minus className="h-4 w-4" />
-                </button>
-                <span className="w-12 text-center font-semibold">{qty}</span>
-                <button onClick={() => setQty((q) => q + 1)} className="flex h-full w-12 items-center justify-center hover:bg-secondary">
-                  <Plus className="h-4 w-4" />
-                </button>
-              </div>
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                onClick={() => add(product, qty)}
-                className="inline-flex h-12 items-center gap-2 rounded bg-brand px-6 text-sm font-bold text-brand-foreground hover:bg-brand-hover transition"
-              >
+              <QtyControl value={qty} onChange={setQty} max={product.stock} />
+              <button type="button" onClick={() => add(product, qty)} className="btn btn-primary btn-lg">
                 <ShoppingCart className="h-4 w-4" /> Add to Cart
-              </motion.button>
-              <button aria-label="Wishlist" className="flex h-12 w-12 items-center justify-center rounded border border-border hover:bg-secondary transition">
-                <Heart className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => { add(product, qty); navigate("/checkout"); }}
+                className="btn btn-dark btn-lg"
+              >
+                <Zap className="h-4 w-4" /> Buy now
+              </button>
+              <button
+                type="button"
+                aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
+                aria-pressed={liked}
+                onClick={() => wishlist.toggle(product)}
+                className={cn("btn-icon h-12 w-12 border", liked ? "border-brand bg-brand/15 text-brand" : "border-border hover:border-brand hover:text-brand")}
+              >
+                <Heart className={cn("h-5 w-5", liked && "fill-current")} />
+              </button>
+              <button type="button" aria-label="Share" onClick={share} className="btn-icon h-12 w-12 border border-border hover:border-brand hover:text-brand">
+                <Share2 className="h-5 w-5" />
               </button>
             </div>
 
@@ -112,8 +130,7 @@ const ProductDetails = () => {
           </section>
         )}
       </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 };
 

@@ -18,7 +18,7 @@ export function BrandsStrip() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.04 }}
               whileHover={{ scale: 1.05 }}
-              className="flex h-20 items-center justify-center border-b border-r border-border last:border-r-0 text-sm font-bold uppercase tracking-widest text-muted-foreground hover:text-brand transition-colors cursor-pointer"
+              className="flex h-20 items-center justify-center border-b border-r border-border last:border-r-0 text-sm font-bold uppercase tracking-widest text-muted-foreground hover:text-brand transition-colors"
             >
               {b}
             </motion.div>

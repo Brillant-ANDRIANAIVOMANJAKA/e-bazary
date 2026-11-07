@@ -7,11 +7,19 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/context/CartContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { SearchProvider } from "@/context/SearchContext";
+import { WishlistProvider } from "@/context/WishlistContext";
+import { AuthProvider } from "@/context/AuthContext";
+import { ScrollManager } from "@/components/common/ScrollManager";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import NotFound from "./pages/NotFound";
+import Shop from "./pages/Shop";
+import Wishlist from "./pages/Wishlist";
+import Account from "./pages/Account";
+import TrackOrder from "./pages/TrackOrder";
+import InfoPage from "./pages/InfoPage";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +39,11 @@ const AnimatedRoutes = () => {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/track" element={<TrackOrder />} />
+          <Route path="/page/:slug" element={<InfoPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
@@ -43,13 +56,18 @@ const App = () => (
     <ThemeProvider>
       <SearchProvider>
         <CartProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <AnimatedRoutes />
-            </BrowserRouter>
-          </TooltipProvider>
+          <WishlistProvider>
+            <AuthProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <ScrollManager />
+                  <AnimatedRoutes />
+                </BrowserRouter>
+              </TooltipProvider>
+            </AuthProvider>
+          </WishlistProvider>
         </CartProvider>
       </SearchProvider>
     </ThemeProvider>

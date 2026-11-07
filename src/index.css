@@ -140,4 +140,59 @@
   .nav-link:hover::after {
     content: ""; @apply absolute left-4 right-4 bottom-1 h-0.5 bg-white;
   }
+
+  /* ---------- Boutons ---------- */
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full
+           font-bold transition-all duration-200 ease-out
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2
+           focus-visible:ring-offset-background active:scale-[0.97]
+           disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn svg { @apply shrink-0 transition-transform duration-200; }
+  .btn:hover svg.lucide-arrow-right { transform: translateX(3px); }
+
+  .btn-sm { @apply h-9 px-4 text-xs uppercase tracking-wide; }
+  .btn-md { @apply h-11 px-6 text-sm; }
+  .btn-lg { @apply h-12 px-7 text-sm; }
+  .btn-block { @apply w-full; }
+  .btn-square { @apply rounded-md; }
+
+  .btn-primary {
+    @apply bg-brand text-brand-foreground shadow-sm hover:bg-brand-hover hover:shadow-md hover:-translate-y-px;
+  }
+  .btn-dark {
+    @apply bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:shadow-md hover:-translate-y-px;
+  }
+  .btn-outline {
+    @apply border border-border bg-card text-foreground hover:border-brand hover:text-brand;
+  }
+  .btn-ghost { @apply text-muted-foreground hover:bg-secondary hover:text-foreground; }
+
+  .btn-icon {
+    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand active:scale-90
+           disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-link {
+    @apply relative inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-brand
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-sm;
+  }
+  .btn-link::after {
+    content: ""; @apply absolute -bottom-0.5 left-0 h-0.5 w-full origin-left bg-brand transition-transform duration-300;
+  }
+  .btn-link:hover::after { transform: scaleX(0.4); }
+  .btn-link svg { @apply transition-transform duration-200; }
+  .btn-link:hover svg { transform: translateX(3px); }
+
+  .qty-btn {
+    @apply flex h-full w-10 items-center justify-center text-muted-foreground transition-colors
+           hover:bg-secondary hover:text-foreground disabled:opacity-40 disabled:pointer-events-none;
+  }
+
+  .field {
+    @apply h-11 w-full rounded-md border border-border bg-background px-3 text-sm outline-none transition
+           focus:border-brand focus:ring-2 focus:ring-brand/30;
+  }
 }

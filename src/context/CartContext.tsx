@@ -52,7 +52,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) dispatch({ type: "HYDRATE", items: JSON.parse(raw) });
-    } catch {}
+    } catch {
+      /* panier stocke illisible : on repart a vide */
+    }
   }, []);
 
   useEffect(() => {

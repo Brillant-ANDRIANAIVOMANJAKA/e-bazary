@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Header } from "@/components/layout/Header";
+import { Link } from "react-router-dom";
+import { ArrowRight, ShoppingCart } from "lucide-react";
+import { PageShell } from "@/components/layout/PageShell";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
 import { GiftBanner } from "@/components/home/GiftBanner";
 import { PromoBanner } from "@/components/home/PromoBanner";
@@ -14,41 +15,48 @@ import { BrandsStrip } from "@/components/home/BrandsStrip";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { CountdownTimer } from "@/components/common/CountdownTimer";
-import { BackToTop } from "@/components/common/BackToTop";
-import { products, categories, Category } from "@/data/products";
-import { useSearch } from "@/context/SearchContext";
+import { products, shopUrl, Category } from "@/data/products";
+import { useCart } from "@/context/CartContext";
 
 const Home = () => {
-  const [active, setActive] = useState<string | undefined>(undefined);
   const [trendingTab, setTrendingTab] = useState("All");
-  const { query } = useSearch();
+  const { add } = useCart();
 
-  const filtered = useMemo(() => {
-    let res = products;
-    if (active) res = res.filter((p) => p.category === active);
-    if (query.trim()) {
-      const q = query.toLowerCase();
-      res = res.filter((p) => p.name.toLowerCase().includes(q) || p.category.includes(q));
-    }
-    return res;
-  }, [active, query]);
+  // Colonne gauche "sticky" : elle defile avec la page jusqu'a ce que son bas
+  // soit visible, puis reste fixe, pour eviter un grand vide a gauche.
+  const leftColRef = useRef<HTMLDivElement>(null);
+  const [leftTop, setLeftTop] = useState(16);
+  useEffect(() => {
+    const el = leftColRef.current;
+    if (!el) return;
+    const update = () => setLeftTop(Math.min(16, window.innerHeight - el.offsetHeight - 16));
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   const dailyDeals = products.filter((p) => p.dailyDeal);
+  const tabs = ["All", "Furniture", "Electronics", "Fashion", "Beauty", "Home"] as const;
+  const tabCategory = trendingTab === "All" ? undefined : (trendingTab.toLowerCase() as Category);
   const trending = useMemo(() => {
-    let t = products.filter((p) => p.trending);
-    if (trendingTab !== "All") t = t.filter((p) => p.category === trendingTab.toLowerCase());
-    return t;
-  }, [trendingTab]);
-
-  const tabs = ["All", "Furniture", "Electronics", "Fashion", "Beauty", "Home"];
+    if (!tabCategory) return products.filter((p) => p.trending).slice(0, 5);
+    return products
+      .filter((p) => p.category === tabCategory)
+      .sort((a, b) => b.sold - a.sold)
+      .slice(0, 5);
+  }, [tabCategory]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <PageShell>
       <main className="container-x py-6">
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <div className="hidden lg:block">
-            <Sidebar active={active} onSelect={(id) => setActive(id as Category | undefined)} />
+          <div ref={leftColRef} className="hidden lg:block lg:sticky lg:self-start" style={{ top: leftTop }}>
+            <Sidebar />
             <LatestProducts />
           </div>
 
@@ -57,7 +65,7 @@ const Home = () => {
             <GiftBanner />
 
             {/* Daily deals */}
-            <section className="mt-10">
+            <section id="deals" className="mt-10 scroll-mt-4">
               <SectionHeader
                 title="Daily Deals"
                 right={<div className="hidden md:block"><CountdownTimer /></div>}
@@ -72,15 +80,15 @@ const Home = () => {
                     transition={{ delay: i * 0.1 }}
                     className="flex gap-4 rounded-md border border-border bg-card p-4 hover:shadow-lg transition-shadow"
                   >
-                    <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded bg-muted">
-                      <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover" />
+                    <Link to={`/product/${p.id}`} className="relative h-40 w-40 shrink-0 overflow-hidden rounded bg-muted">
+                      <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 hover:scale-105" />
                       <span className="badge-sale">-{p.discount}%</span>
-                    </div>
+                    </Link>
                     <div className="flex flex-1 flex-col">
-                      <h3 className="line-clamp-2 text-sm font-semibold">{p.name}</h3>
+                      <Link to={`/product/${p.id}`} className="line-clamp-2 text-sm font-semibold hover:text-brand">{p.name}</Link>
                       <div className="mt-1 flex items-baseline gap-2">
-                        <span className="text-base font-bold text-brand">Ar{p.price}</span>
-                        <span className="text-xs line-through text-muted-foreground">Ar{p.oldPrice}</span>
+                        <span className="text-base font-bold text-brand">Ar {p.price.toFixed(2)}</span>
+                        {p.oldPrice && <span className="text-xs line-through text-muted-foreground">Ar {p.oldPrice.toFixed(2)}</span>}
                       </div>
                       <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">{p.description}</p>
                       <div className="mt-2 flex justify-between text-xs">
@@ -95,6 +103,9 @@ const Home = () => {
                       </div>
                       <p className="mt-3 text-[10px] font-bold uppercase">Hurry Up! Offers end in:</p>
                       <div className="mt-1"><CountdownTimer /></div>
+                      <button type="button" onClick={() => add(p)} className="btn btn-primary btn-sm mt-3 self-start">
+                        <ShoppingCart className="h-3.5 w-3.5" /> Add to cart
+                      </button>
                     </div>
                   </motion.div>
                 ))}
@@ -104,14 +115,19 @@ const Home = () => {
             <PromoBanner />
 
             {/* Trending */}
-            <section className="mt-4">
+            <section id="trending" className="mt-4 scroll-mt-4">
               <SectionHeader
                 title="Trending Items"
-                tabs={tabs}
+                tabs={[...tabs]}
                 active={trendingTab}
                 onTabChange={setTrendingTab}
+                right={
+                  <Link to={shopUrl(tabCategory)} className="btn-link mb-2">
+                    View all <ArrowRight className="h-3 w-3" />
+                  </Link>
+                }
               />
-              <ProductGrid products={trending.length ? trending : products.slice(0, 5)} columns={5} />
+              <ProductGrid products={trending} columns={5} />
             </section>
 
             {/* Promo + grid */}
@@ -124,7 +140,9 @@ const Home = () => {
               >
                 <p className="text-xs font-bold uppercase tracking-widest text-brand">Up to 50% OFF</p>
                 <p className="mt-1 text-2xl font-extrabold">Armchair Furniture</p>
-                <button className="mt-3 inline-block text-xs font-bold uppercase border-b border-brand text-brand">Shop now →</button>
+                <Link to={shopUrl("furniture")} className="btn-link mt-3">
+                  Shop now <ArrowRight className="h-3 w-3" />
+                </Link>
                 <img
                   src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=400&q=70"
                   alt="Armchair"
@@ -135,7 +153,7 @@ const Home = () => {
               <ProductGrid products={products.slice(8, 16)} columns={4} />
             </section>
 
-            <section className="mt-10">
+            <section id="features" className="mt-10 scroll-mt-4">
               <FeatureStrip />
             </section>
 
@@ -145,23 +163,10 @@ const Home = () => {
 
             <BrandsStrip />
 
-            {/* Filtered all-products section (search/category) */}
-            {(active || query) && (
-              <section className="mt-10">
-                <SectionHeader title={query ? `Results for "${query}"` : `Category: ${categories.find(c => c.id === active)?.label}`} />
-                {filtered.length === 0 ? (
-                  <p className="py-10 text-center text-muted-foreground">No products found.</p>
-                ) : (
-                  <ProductGrid products={filtered} columns={5} />
-                )}
-              </section>
-            )}
           </div>
         </div>
       </main>
-      <Footer />
-      <BackToTop />
-    </div>
+    </PageShell>
   );
 };
 

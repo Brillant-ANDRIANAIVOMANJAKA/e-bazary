@@ -15,16 +15,19 @@ export function SectionHeader({
 }) {
   return (
     <div className="mb-4 flex flex-wrap items-end justify-between gap-3 border-b border-border">
-      <div className="flex items-end gap-6">
+      <div className="flex min-w-0 items-end gap-6">
         <span className="section-title">{title}</span>
         {tabs && (
-          <div className="hidden items-center gap-4 pb-2 md:flex">
+          <div className="-mb-px flex items-center gap-1 overflow-x-auto pb-1" role="tablist">
             {tabs.map((t) => (
               <button
                 key={t}
+                type="button"
+                role="tab"
+                aria-selected={active === t}
                 onClick={() => onTabChange?.(t)}
-                className={`text-sm font-medium uppercase tracking-wide transition-colors ${
-                  active === t ? "text-brand" : "text-muted-foreground hover:text-foreground"
+                className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand md:text-sm ${
+                  active === t ? "bg-brand text-brand-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                 }`}
               >
                 {t}
