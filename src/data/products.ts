@@ -1,3 +1,15 @@
+import {
+  BedDouble,
+  Dumbbell,
+  Gem,
+  Gift,
+  Shirt,
+  Smartphone,
+  Sofa,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
+
 export type Category =
   | "furniture"
   | "fashion"
@@ -25,18 +37,18 @@ export interface Product {
   description: string;
 }
 
-export const categories: { id: Category; label: string; icon: string }[] = [
-  { id: "furniture", label: "Furniture & Home", icon: "🛋️" },
-  { id: "fashion", label: "Fashion & Apparel", icon: "👗" },
-  { id: "electronics", label: "Electronics", icon: "📱" },
-  { id: "beauty", label: "Health & Beauty", icon: "💄" },
-  { id: "sports", label: "Sports & Toys", icon: "⚽" },
-  { id: "home", label: "Home Textile", icon: "🛏️" },
-  { id: "toys", label: "Gifts & Games", icon: "🎁" },
-  { id: "jewelry", label: "Jewelry & Bags", icon: "💍" },
+export const categories: { id: Category; label: string; icon: LucideIcon }[] = [
+  { id: "furniture", label: "Furniture & Home", icon: Sofa },
+  { id: "fashion", label: "Fashion & Apparel", icon: Shirt },
+  { id: "electronics", label: "Electronics", icon: Smartphone },
+  { id: "beauty", label: "Health & Beauty", icon: Sparkles },
+  { id: "sports", label: "Sports & Toys", icon: Dumbbell },
+  { id: "home", label: "Home Textile", icon: BedDouble },
+  { id: "toys", label: "Gifts & Games", icon: Gift },
+  { id: "jewelry", label: "Jewelry & Bags", icon: Gem },
 ];
 
-// ✅ fonction image corrigée (Unsplash stable)
+// Fonction image (Unsplash stable)
 const img = (id: string, w = 600) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80&fm=webp`;
 

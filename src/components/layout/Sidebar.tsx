@@ -40,7 +40,7 @@ export function Sidebar({ active, onSelect }: Props) {
                 }`}
               >
                 <span className="flex items-center gap-2">
-                  <span className="text-base">{c.icon}</span>
+                  <c.icon className="h-4 w-4 shrink-0 text-brand" />
                   {c.label}
                 </span>
                 <ChevronRight className="h-3.5 w-3.5 opacity-50" />
