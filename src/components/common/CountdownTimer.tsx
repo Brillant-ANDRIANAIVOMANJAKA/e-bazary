@@ -18,14 +18,14 @@ export function CountdownTimer({ targetMs = 1000 * 60 * 60 * 12 }: { targetMs?: 
   const secs = Math.floor((diff / 1000) % 60);
 
   const cells = [
-    { v: pad(days), l: "DAYS" },
-    { v: pad(hours), l: "HRS" },
+    { v: pad(days), l: "JOURS" },
+    { v: pad(hours), l: "H" },
     { v: pad(mins), l: "MIN" },
-    { v: pad(secs), l: "SEC" },
+    { v: pad(secs), l: "S" },
   ];
 
   return (
-    <div className="flex items-center gap-1.5 sm:gap-2" role="timer" aria-label="Offer ends in">
+    <div className="flex items-center gap-1.5 sm:gap-2" role="timer" aria-label="L'offre se termine dans">
       {cells.map((c) => (
         <div key={c.l} className="flex h-11 w-11 flex-col sm:h-12 sm:w-12 items-center justify-center rounded bg-primary text-primary-foreground">
           <span className="text-base font-bold leading-none tabular-nums">{c.v}</span>

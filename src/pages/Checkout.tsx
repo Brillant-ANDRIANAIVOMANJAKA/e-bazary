@@ -44,17 +44,17 @@ const Checkout = () => {
   const applyCoupon = () => {
     if (couponRate(couponInput) > 0) {
       setCoupon(couponInput.trim().toUpperCase());
-      toast.success(`Coupon applied: -${couponRate(couponInput) * 100}%`);
+      toast.success(`Code appliqué : -${couponRate(couponInput) * 100} %`);
     } else {
-      toast.error("This coupon code is not valid.");
+      toast.error("Ce code promo n'est pas valide.");
     }
   };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (digits(form.card).length < 12) return toast.error("Please enter a valid card number.");
-    if (digits(form.exp).length !== 4) return toast.error("Please enter the expiry date as MM / YY.");
-    if (form.cvc.length < 3) return toast.error("Please enter a valid CVC.");
+    if (digits(form.card).length < 12) return toast.error("Veuillez saisir un numéro de carte valide.");
+    if (digits(form.exp).length !== 4) return toast.error("Veuillez saisir la date d'expiration au format MM / AA.");
+    if (form.cvc.length < 3) return toast.error("Veuillez saisir un CVC valide.");
     setPlacing(true);
     window.setTimeout(() => {
       const id = newOrderId();
@@ -73,7 +73,7 @@ const Checkout = () => {
       clear();
       setPlacing(false);
       setOrderId(id);
-      toast.success("Order placed successfully!");
+      toast.success("Commande validée !");
     }, 900);
   };
 
@@ -83,18 +83,18 @@ const Checkout = () => {
         <main className="container-x py-20 text-center">
           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
             <CheckCircle2 className="mx-auto h-16 w-16 text-brand" />
-            <h1 className="mt-4 text-3xl font-extrabold">Thank you for your order!</h1>
-            <p className="mt-2 text-muted-foreground">Your order number is</p>
+            <h1 className="mt-4 text-3xl font-extrabold">Merci pour votre commande !</h1>
+            <p className="mt-2 text-muted-foreground">Votre numéro de commande :</p>
             <button
               type="button"
-              onClick={() => { navigator.clipboard?.writeText(orderId); toast.success("Order number copied"); }}
+              onClick={() => { navigator.clipboard?.writeText(orderId); toast.success("Numéro de commande copié"); }}
               className="btn btn-outline btn-md mt-2 font-mono text-lg"
             >
               {orderId} <Copy className="h-4 w-4" />
             </button>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Link to={`/track?order=${orderId}`} className="btn btn-primary btn-md"><Truck className="h-4 w-4" /> Track my order</Link>
-              <Link to="/shop" className="btn btn-outline btn-md">Continue shopping</Link>
+              <Link to={`/track?order=${orderId}`} className="btn btn-primary btn-md"><Truck className="h-4 w-4" /> Suivre ma commande</Link>
+              <Link to="/shop" className="btn btn-outline btn-md">Continuer mes achats</Link>
             </div>
           </motion.div>
         </main>
@@ -105,42 +105,42 @@ const Checkout = () => {
   return (
     <>
       <main className="container-x py-10">
-        <PageTitle title="Checkout" />
+        <PageTitle title="Paiement" />
         {items.length === 0 ? (
           <div className="rounded-md border border-border bg-card py-16 text-center">
-            <p className="text-muted-foreground">Your cart is empty — add some products before checking out.</p>
-            <Link to="/shop" className="btn btn-primary btn-md mt-6">Browse products</Link>
+            <p className="text-muted-foreground">Votre panier est vide — ajoutez des produits avant de passer commande.</p>
+            <Link to="/shop" className="btn btn-primary btn-md mt-6">Voir les produits</Link>
           </div>
         ) : (
           <form onSubmit={submit} className="grid gap-8 lg:grid-cols-[1fr_360px]">
             <div className="space-y-6 rounded-md border border-border bg-card p-6">
               <section>
-                <h2 className="mb-3 text-lg font-bold">Shipping Information</h2>
+                <h2 className="mb-3 text-lg font-bold">Adresse de livraison</h2>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <input required autoComplete="given-name" placeholder="First name" className="field" value={form.first} onChange={set("first")} />
-                  <input required autoComplete="family-name" placeholder="Last name" className="field" value={form.last} onChange={set("last")} />
+                  <input required autoComplete="given-name" placeholder="Prénom" className="field" value={form.first} onChange={set("first")} />
+                  <input required autoComplete="family-name" placeholder="Nom" className="field" value={form.last} onChange={set("last")} />
                   <input required type="email" autoComplete="email" placeholder="Email" className="field sm:col-span-2" value={form.email} onChange={set("email")} />
-                  <input required autoComplete="street-address" placeholder="Address" className="field sm:col-span-2" value={form.address} onChange={set("address")} />
-                  <input required autoComplete="address-level2" placeholder="City" className="field" value={form.city} onChange={set("city")} />
-                  <input required autoComplete="postal-code" placeholder="ZIP" className="field" value={form.zip} onChange={set("zip")} />
+                  <input required autoComplete="street-address" placeholder="Adresse" className="field sm:col-span-2" value={form.address} onChange={set("address")} />
+                  <input required autoComplete="address-level2" placeholder="Ville" className="field" value={form.city} onChange={set("city")} />
+                  <input required autoComplete="postal-code" placeholder="Code postal" className="field" value={form.zip} onChange={set("zip")} />
                 </div>
               </section>
               <section>
-                <h2 className="mb-3 flex items-center gap-2 text-lg font-bold">Payment <Lock className="h-4 w-4 text-muted-foreground" /></h2>
+                <h2 className="mb-3 flex items-center gap-2 text-lg font-bold">Paiement <Lock className="h-4 w-4 text-muted-foreground" /></h2>
                 <div className="grid gap-3">
-                  <input required inputMode="numeric" autoComplete="cc-number" placeholder="Card number" className="field font-mono" value={form.card} onChange={set("card")} />
+                  <input required inputMode="numeric" autoComplete="cc-number" placeholder="Numéro de carte" className="field font-mono" value={form.card} onChange={set("card")} />
                   <div className="grid grid-cols-2 gap-3">
-                    <input required inputMode="numeric" autoComplete="cc-exp" placeholder="MM / YY" className="field font-mono" value={form.exp} onChange={set("exp")} />
+                    <input required inputMode="numeric" autoComplete="cc-exp" placeholder="MM / AA" className="field font-mono" value={form.exp} onChange={set("exp")} />
                     <input required inputMode="numeric" autoComplete="cc-csc" placeholder="CVC" className="field font-mono" value={form.cvc} onChange={set("cvc")} />
                   </div>
-                  <p className="text-xs text-muted-foreground">Demo store: no payment is charged and card details are never stored.</p>
+                  <p className="text-xs text-muted-foreground">Boutique de démonstration : aucun paiement n'est débité et les données de carte ne sont jamais enregistrées.</p>
                 </div>
               </section>
             </div>
 
             <aside>
-              <div className="sticky top-4 rounded-md border border-border bg-card p-6">
-                <h2 className="mb-4 text-lg font-bold">Order ({items.length})</h2>
+              <div className="sticky top-[calc(var(--header-h,0px)+1rem)] rounded-md border border-border bg-card p-6">
+                <h2 className="mb-4 text-lg font-bold">Commande ({items.length})</h2>
                 <ul className="space-y-2 max-h-60 overflow-auto pr-1">
                   {items.map((it) => (
                     <li key={it.id} className="flex items-center gap-2 text-xs">
@@ -156,7 +156,7 @@ const Checkout = () => {
                   {coupon ? (
                     <div className="flex items-center justify-between rounded-md bg-brand/15 px-3 py-2 text-sm">
                       <span className="flex items-center gap-2 font-semibold"><Tag className="h-4 w-4 text-brand" /> {coupon}</span>
-                      <button type="button" aria-label="Remove coupon" onClick={() => setCoupon(null)} className="btn-icon h-7 w-7 hover:bg-background">
+                      <button type="button" aria-label="Retirer le code" onClick={() => setCoupon(null)} className="btn-icon h-7 w-7 hover:bg-background">
                         <X className="h-3.5 w-3.5" />
                       </button>
                     </div>
@@ -166,27 +166,27 @@ const Checkout = () => {
                         value={couponInput}
                         onChange={(e) => setCouponInput(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); applyCoupon(); } }}
-                        placeholder="Coupon code"
-                        aria-label="Coupon code"
+                        placeholder="Code promo"
+                        aria-label="Code promo"
                         className="field h-10 uppercase"
                       />
                       <button type="button" onClick={applyCoupon} disabled={!couponInput.trim()} className="btn btn-dark h-10 px-4 text-xs uppercase">
-                        Apply
+                        Appliquer
                       </button>
                     </div>
                   )}
                 </div>
 
                 <dl className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
-                  <div className="flex justify-between"><dt>Subtotal</dt><dd>Ar {subtotal.toFixed(2)}</dd></div>
-                  {discount > 0 && <div className="flex justify-between text-brand"><dt>Discount</dt><dd>- Ar {discount.toFixed(2)}</dd></div>}
-                  <div className="flex justify-between"><dt>Shipping</dt><dd>{shipping === 0 ? "FREE" : `Ar ${shipping.toFixed(2)}`}</dd></div>
+                  <div className="flex justify-between"><dt>Sous-total</dt><dd>Ar {subtotal.toFixed(2)}</dd></div>
+                  {discount > 0 && <div className="flex justify-between text-brand"><dt>Remise</dt><dd>- Ar {discount.toFixed(2)}</dd></div>}
+                  <div className="flex justify-between"><dt>Livraison</dt><dd>{shipping === 0 ? "OFFERTE" : `Ar ${shipping.toFixed(2)}`}</dd></div>
                   <div className="flex justify-between text-base font-bold pt-2 border-t border-border">
                     <dt>Total</dt><dd className="text-brand">Ar {total.toFixed(2)}</dd>
                   </div>
                 </dl>
                 <button type="submit" disabled={placing} className="btn btn-primary btn-lg btn-block btn-square mt-6">
-                  {placing ? <><Loader2 className="h-4 w-4 animate-spin" /> Placing order...</> : <><Lock className="h-4 w-4" /> Place Order</>}
+                  {placing ? <><Loader2 className="h-4 w-4 animate-spin" /> Validation...</> : <><Lock className="h-4 w-4" /> Valider la commande</>}
                 </button>
               </div>
             </aside>

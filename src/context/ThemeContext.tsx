@@ -6,12 +6,12 @@ const ThemeContext = createContext<{ theme: Theme; toggle: () => void } | null>(
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
-    return (localStorage.getItem("emarket_theme") as Theme) || "light";
+    return (localStorage.getItem("ebazary_theme") as Theme) || "light";
   });
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
-    localStorage.setItem("emarket_theme", theme);
+    localStorage.setItem("ebazary_theme", theme);
   }, [theme]);
 
   return (

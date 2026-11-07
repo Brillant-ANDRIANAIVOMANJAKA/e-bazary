@@ -6,7 +6,7 @@ export function BrandsStrip() {
   return (
     <section className="mt-12">
       <div className="mb-4 border-b border-border">
-        <span className="section-title">Featured Brands</span>
+        <span className="section-title">Marques à la une</span>
       </div>
       <div className="overflow-hidden rounded-md border border-border bg-card">
         <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-10">

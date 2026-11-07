@@ -3,10 +3,10 @@ import { Truck, ShieldCheck, Gift, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 
 const features = [
-  { icon: Truck, title: "Free Delivery", text: "On Orders Over Ar 4900", to: "/page/shipping" },
-  { icon: ShieldCheck, title: "Order Protection", text: "Secured Information", to: "/page/privacy" },
-  { icon: Gift, title: "Promotion Gift", text: "Special Offers!", to: "/page/help" },
-  { icon: RefreshCw, title: "Money Back", text: "Return over 30 Days", to: "/page/returns" },
+  { icon: Truck, title: "Livraison offerte", text: "Dès Ar 4900 d'achat", to: "/page/shipping" },
+  { icon: ShieldCheck, title: "Commande protégée", text: "Données sécurisées", to: "/page/privacy" },
+  { icon: Gift, title: "Cadeaux & promos", text: "Offres spéciales !", to: "/page/help" },
+  { icon: RefreshCw, title: "Satisfait ou remboursé", text: "Retour sous 30 jours", to: "/page/returns" },
 ];
 
 export function FeatureStrip() {

@@ -6,33 +6,33 @@ import { isEmail, subscribeNewsletter } from "@/lib/storage";
 
 const COLUMNS = [
   {
-    title: "Information",
+    title: "Informations",
     links: [
-      { label: "About Us", to: "/page/about" },
+      { label: "À propos", to: "/page/about" },
       { label: "Contact", to: "/page/contact" },
-      { label: "Careers", to: "/page/careers" },
-      { label: "Affiliate", to: "/page/affiliate" },
-      { label: "Stores", to: "/page/stores" },
+      { label: "Carrières", to: "/page/careers" },
+      { label: "Affiliation", to: "/page/affiliate" },
+      { label: "Nos boutiques", to: "/page/stores" },
     ],
   },
   {
-    title: "Customer Service",
+    title: "Service client",
     links: [
-      { label: "Help Center", to: "/page/help" },
-      { label: "Returns", to: "/page/returns" },
-      { label: "Shipping", to: "/page/shipping" },
-      { label: "Order Tracking", to: "/track" },
-      { label: "Privacy", to: "/page/privacy" },
+      { label: "Centre d'aide", to: "/page/help" },
+      { label: "Retours", to: "/page/returns" },
+      { label: "Livraison", to: "/page/shipping" },
+      { label: "Suivi de commande", to: "/track" },
+      { label: "Confidentialité", to: "/page/privacy" },
     ],
   },
   {
-    title: "My Account",
+    title: "Mon compte",
     links: [
-      { label: "Sign In", to: "/account" },
-      { label: "Wishlist", to: "/wishlist" },
-      { label: "Cart", to: "/cart" },
-      { label: "Track Order", to: "/track" },
-      { label: "Shop", to: "/shop" },
+      { label: "Connexion", to: "/account" },
+      { label: "Favoris", to: "/wishlist" },
+      { label: "Panier", to: "/cart" },
+      { label: "Suivre ma commande", to: "/track" },
+      { label: "Boutique", to: "/shop" },
     ],
   },
 ];
@@ -51,13 +51,13 @@ export function Footer() {
   const subscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isEmail(email)) {
-      toast.error("Please enter a valid email address.");
+      toast.error("Veuillez saisir une adresse email valide.");
       return;
     }
     setState("loading");
     window.setTimeout(() => {
       const isNew = subscribeNewsletter(email);
-      toast.success(isNew ? "Thanks for subscribing!" : "You are already subscribed.");
+      toast.success(isNew ? "Merci pour votre inscription !" : "Vous êtes déjà inscrit.");
       setState("done");
       setEmail("");
       window.setTimeout(() => setState("idle"), 2500);
@@ -70,20 +70,20 @@ export function Footer() {
       <div className="border-b border-white/10">
         <div className="container-x flex flex-col items-center justify-between gap-4 py-8 md:flex-row">
           <div>
-            <h3 className="text-xl font-bold text-white">Subscribe to our newsletter</h3>
-            <p className="text-sm opacity-70">Get the latest deals & updates straight to your inbox.</p>
+            <h3 className="text-xl font-bold text-white">Abonnez-vous à notre newsletter</h3>
+            <p className="text-sm opacity-70">Recevez nos dernières promos et nouveautés directement par email.</p>
           </div>
           <form onSubmit={subscribe} noValidate className="flex w-full max-w-md overflow-hidden rounded-full bg-white/10 p-1 focus-within:ring-2 focus-within:ring-brand">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              aria-label="Email address"
-              placeholder="Enter your email..."
+              aria-label="Adresse email"
+              placeholder="Votre adresse email..."
               className="min-w-0 flex-1 bg-transparent px-4 py-2 text-sm text-white outline-none placeholder:text-white/50"
             />
             <button type="submit" disabled={state === "loading"} className="btn btn-primary btn-sm w-32">
-              {state === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : state === "done" ? <><Check className="h-4 w-4" /> Done</> : "Subscribe"}
+              {state === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : state === "done" ? <><Check className="h-4 w-4" /> Inscrit</> : "S'abonner"}
             </button>
           </form>
         </div>
@@ -93,12 +93,12 @@ export function Footer() {
         <div className="lg:col-span-2">
           <Link to="/" className="flex items-center gap-2 mb-3 w-fit">
             <div className="h-9 w-9 rounded-full overflow-hidden">
-              <img src="/e-market.png" alt="e-market logo" className="h-full w-full object-cover" />
+              <img src="/e-bazary.png" alt="Logo e-bazary" className="h-full w-full object-cover" />
             </div>
-            <p className="text-xl font-extrabold text-white">e-market</p>
+            <p className="text-xl font-extrabold text-white">e-bazary</p>
           </Link>
           <p className="text-sm opacity-70 max-w-sm">
-            Your modern marketplace for furniture, fashion, electronics and more — daily deals, premium quality, fast shipping worldwide.
+            Votre marketplace malgache pour la maison, la mode, l'électronique et plus encore — promos quotidiennes, qualité premium et livraison rapide.
           </p>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
@@ -112,8 +112,8 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a href="mailto:support@emarket.com" className="flex items-center gap-2 hover:text-brand transition">
-                <Mail className="h-4 w-4 text-brand" /> support@emarket.com
+              <a href="mailto:support@e-bazary.mg" className="flex items-center gap-2 hover:text-brand transition">
+                <Mail className="h-4 w-4 text-brand" /> support@e-bazary.mg
               </a>
             </li>
           </ul>
@@ -137,7 +137,7 @@ export function Footer() {
 
       <div className="border-t border-white/10">
         <div className="container-x flex flex-col items-center justify-between gap-3 py-5 text-xs md:flex-row">
-          <p className="opacity-70">© {new Date().getFullYear()} eMarket by Brillant — All rights reserved.</p>
+          <p className="opacity-70">© {new Date().getFullYear()} e-bazary par Brillant — Tous droits réservés.</p>
           <div className="flex items-center gap-2">
             {SOCIALS.map(({ Icon, label, href }) => (
               <a

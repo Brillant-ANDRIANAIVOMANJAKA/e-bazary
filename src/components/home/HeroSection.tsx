@@ -18,7 +18,7 @@ export function HeroSection() {
       >
         <img
           src={heroBedroom}
-          alt="Modern bedroom furniture sale"
+          alt="Promo mobilier de chambre"
           width={1280}
           height={640}
           className="absolute inset-0 h-full w-full object-cover"
@@ -31,7 +31,7 @@ export function HeroSection() {
             transition={{ delay: 0.2 }}
             className="text-sm font-semibold uppercase tracking-widest text-foreground/80"
           >
-            Office furniture
+            Mobilier de bureau
           </motion.p>
           <motion.h1
             initial={{ y: 16, opacity: 0 }}
@@ -39,7 +39,7 @@ export function HeroSection() {
             transition={{ delay: 0.3 }}
             className="mt-2 text-3xl font-extrabold leading-tight text-brand sm:text-4xl md:text-6xl"
           >
-            SALE UP TO 50% OFF
+            JUSQU'À -50 %
           </motion.h1>
           <motion.p
             initial={{ y: 16, opacity: 0 }}
@@ -47,11 +47,11 @@ export function HeroSection() {
             transition={{ delay: 0.4 }}
             className="mt-2 max-w-md text-xs text-foreground/70 sm:text-sm"
           >
-            They key is to have every key, the key to open every door. We don't seem them, we will never see them.
+            Bureaux, chaises et rangements à prix doux : équipez votre espace de travail sans vous ruiner.
           </motion.p>
           <motion.div initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}>
             <Link to={shopUrl("furniture")} className="btn btn-primary btn-lg mt-5">
-              Shop Now <ArrowRight className="h-4 w-4" />
+              J'en profite <ArrowRight className="h-4 w-4" />
             </Link>
           </motion.div>
         </div>
@@ -66,11 +66,11 @@ export function HeroSection() {
           whileHover={{ y: -3 }}
           className="group relative overflow-hidden rounded-md bg-gradient-to-br from-amber-100 to-orange-200 p-4 dark:from-amber-900/30 dark:to-orange-900/30"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-foreground/70">Colorful</p>
-          <p className="text-lg font-extrabold">Pillows</p>
-          <p className="mt-1 text-xs">Starts at <span className="text-brand font-bold">Ar 29000.99</span></p>
-          <Link to={shopUrl("home")} className="absolute inset-0" aria-label="Shop colorful pillows" />
-          <img src={promoPillows} alt="Colorful pillows" loading="lazy" className="mt-2 h-24 w-full object-contain" />
+          <p className="text-xs font-bold uppercase tracking-widest text-foreground/70">Colorés</p>
+          <p className="text-lg font-extrabold">Coussins</p>
+          <p className="mt-1 text-xs">À partir de <span className="text-brand font-bold">Ar 29000.99</span></p>
+          <Link to={shopUrl("home")} className="absolute inset-0" aria-label="Voir les coussins" />
+          <img src={promoPillows} alt="Coussins colorés" loading="lazy" className="mt-2 h-24 w-full object-contain" />
         </motion.div>
         <motion.div
           initial={{ x: 20, opacity: 0 }}
@@ -79,9 +79,9 @@ export function HeroSection() {
           className="relative overflow-hidden rounded-md bg-secondary p-4"
         >
           <p className="text-base font-extrabold text-brand sm:text-lg">Ar 450 000.89</p>
-          <p className="text-xs font-semibold uppercase tracking-wider">Interior Design</p>
-          <Link to={shopUrl("furniture")} className="btn-link mt-1">Shop now <ArrowRight className="h-3 w-3" /></Link>
-          <img src={promoSofa} alt="Modern sofa" loading="lazy" className="mt-2 h-24 w-full object-contain" />
+          <p className="text-xs font-semibold uppercase tracking-wider">Déco intérieure</p>
+          <Link to={shopUrl("furniture")} className="btn-link mt-1">Acheter <ArrowRight className="h-3 w-3" /></Link>
+          <img src={promoSofa} alt="Canapé moderne" loading="lazy" className="mt-2 h-24 w-full object-contain" />
         </motion.div>
       </div>
     </section>

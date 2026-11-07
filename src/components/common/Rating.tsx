@@ -14,7 +14,7 @@ export function Rating({
 }) {
   const pct = Math.max(0, Math.min(100, (value / 5) * 100));
   return (
-    <div className={cn("flex items-center gap-2", className)} aria-label={`Rated ${value.toFixed(1)} out of 5`}>
+    <div className={cn("flex items-center gap-2", className)} aria-label={`Noté ${value.toFixed(1)} sur 5`}>
       <span
         className={cn(
           "inline-flex items-center rounded bg-brand/15 font-bold text-foreground",
@@ -32,7 +32,7 @@ export function Rating({
       </span>
       {reviews !== undefined && (
         <span className={cn("text-muted-foreground", size === "sm" ? "text-[10px]" : "text-sm")}>
-          {reviews} reviews
+          {reviews} avis
         </span>
       )}
     </div>

@@ -7,11 +7,11 @@ import { categories, categoryLabel, products, shopUrl } from "@/data/products";
 import { cn } from "@/lib/utils";
 
 const SORTS = [
-  { id: "popular", label: "Most popular" },
-  { id: "price-asc", label: "Price: low to high" },
-  { id: "price-desc", label: "Price: high to low" },
-  { id: "rating", label: "Best rated" },
-  { id: "discount", label: "Biggest discount" },
+  { id: "popular", label: "Popularité" },
+  { id: "price-asc", label: "Prix croissant" },
+  { id: "price-desc", label: "Prix décroissant" },
+  { id: "rating", label: "Mieux notés" },
+  { id: "discount", label: "Plus grosses remises" },
 ] as const;
 
 const Shop = () => {
@@ -50,29 +50,29 @@ const Shop = () => {
   return (
     <>
       <main className="container-x py-6">
-        <nav className="mb-4 flex items-center gap-2 text-xs text-muted-foreground" aria-label="Breadcrumb">
-          <Link to="/" className="hover:text-brand">Home</Link>
+        <nav className="mb-4 flex items-center gap-2 text-xs text-muted-foreground" aria-label="Fil d'Ariane">
+          <Link to="/" className="hover:text-brand">Accueil</Link>
           <ChevronRight className="h-3 w-3" />
-          <Link to="/shop" className="hover:text-brand">Shop</Link>
+          <Link to="/shop" className="hover:text-brand">Boutique</Link>
           {label && (<><ChevronRight className="h-3 w-3" /><span className="text-foreground">{label}</span></>)}
         </nav>
 
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <div className="hidden lg:block lg:sticky lg:top-4 lg:self-start">
+          <div className="hidden lg:block lg:sticky lg:top-[calc(var(--header-h,0px)+1rem)] lg:self-start">
             <Sidebar active={category} query={q || undefined} showPromo={false} />
           </div>
 
           <div className="min-w-0">
             <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
               <div>
-                <h1 className="text-2xl font-extrabold md:text-3xl">{label ?? "All products"}</h1>
+                <h1 className="text-2xl font-extrabold md:text-3xl">{label ?? "Tous les produits"}</h1>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {results.length} {results.length === 1 ? "product" : "products"}
-                  {q && <> for “<span className="font-semibold text-foreground">{q}</span>”</>}
+                  {results.length} {results.length === 1 ? "produit" : "produits"}
+                  {q && <> pour « <span className="font-semibold text-foreground">{q}</span> »</>}
                 </p>
               </div>
               <label className="flex items-center gap-2 text-sm">
-                <span className="text-muted-foreground">Sort by</span>
+                <span className="text-muted-foreground">Trier par</span>
                 <select
                   value={sort}
                   onChange={(e) => setParam("sort", e.target.value === "popular" ? undefined : e.target.value)}
@@ -85,7 +85,7 @@ const Shop = () => {
 
             {/* Filtres rapides (mobile) */}
             <div className="mb-5 flex gap-2 overflow-x-auto pb-1 lg:hidden">
-              <Link to={shopUrl(undefined, q || undefined)} className={cn("btn btn-sm shrink-0", !category ? "btn-primary" : "btn-outline")}>All</Link>
+              <Link to={shopUrl(undefined, q || undefined)} className={cn("btn btn-sm shrink-0", !category ? "btn-primary" : "btn-outline")}>Tous</Link>
               {categories.map((c) => (
                 <Link key={c.id} to={shopUrl(c.id, q || undefined)} className={cn("btn btn-sm shrink-0", category === c.id ? "btn-primary" : "btn-outline")}>
                   <c.icon className="h-3.5 w-3.5" /> {c.label}
@@ -102,19 +102,19 @@ const Shop = () => {
                 )}
                 {q && (
                   <button type="button" onClick={() => setParam("q")} className="btn btn-outline h-8 px-3 text-xs">
-                    “{q}” <X className="h-3 w-3" />
+                    « {q} » <X className="h-3 w-3" />
                   </button>
                 )}
-                <Link to="/shop" className="btn btn-ghost h-8 px-3 text-xs">Clear all</Link>
+                <Link to="/shop" className="btn btn-ghost h-8 px-3 text-xs">Tout effacer</Link>
               </div>
             )}
 
             {results.length === 0 ? (
               <div className="rounded-md border border-dashed border-border bg-card py-16 text-center">
                 <PackageSearch className="mx-auto h-12 w-12 text-muted-foreground" />
-                <p className="mt-3 font-semibold">No products found</p>
-                <p className="mt-1 text-sm text-muted-foreground">Try another keyword or category.</p>
-                <Link to="/shop" className="btn btn-primary btn-md mt-6">See all products</Link>
+                <p className="mt-3 font-semibold">Aucun produit trouvé</p>
+                <p className="mt-1 text-sm text-muted-foreground">Essayez un autre mot-clé ou une autre catégorie.</p>
+                <Link to="/shop" className="btn btn-primary btn-md mt-6">Voir tous les produits</Link>
               </div>
             ) : (
               <ProductGrid products={results} columns={4} />

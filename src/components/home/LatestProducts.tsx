@@ -11,7 +11,7 @@ export function LatestProducts() {
   return (
     <div className="mt-4 rounded-md border border-border bg-card overflow-hidden">
       <div className="bg-primary px-4 py-3 text-sm font-bold uppercase tracking-wider text-primary-foreground">
-        Latest Products
+        Nouveautés
       </div>
       <ul>
         {latest.map((p) => (
@@ -28,7 +28,7 @@ export function LatestProducts() {
             </Link>
             <button
               type="button"
-              aria-label={`Add ${p.name} to cart`}
+              aria-label={`Ajouter ${p.name} au panier`}
               onClick={() => add(p)}
               className="btn-icon h-8 w-8 bg-background text-muted-foreground hover:bg-brand hover:text-brand-foreground"
             >

@@ -40,7 +40,7 @@ export function ProductCard({ product, index = 0 }: Props) {
         {/* Favori : toujours visible (utilisable au tactile) */}
         <button
           type="button"
-          aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
+          aria-label={liked ? "Retirer des favoris" : "Ajouter aux favoris"}
           aria-pressed={liked}
           onClick={() => wishlist.toggle(product)}
           className={cn(
@@ -55,7 +55,7 @@ export function ProductCard({ product, index = 0 }: Props) {
         <div className="absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-center gap-2 bg-primary/90 p-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
           <button
             type="button"
-            aria-label="Quick view"
+            aria-label="Aperçu rapide"
             onClick={() => setQuickOpen(true)}
             className="btn-icon h-9 w-9 bg-white/10 text-white hover:bg-white/25"
           >
@@ -66,7 +66,7 @@ export function ProductCard({ product, index = 0 }: Props) {
             onClick={() => add(product)}
             className="btn btn-primary h-9 px-4 text-xs uppercase"
           >
-            <ShoppingCart className="h-4 w-4" /> Add
+            <ShoppingCart className="h-4 w-4" /> Ajouter
           </button>
         </div>
       </div>
@@ -83,7 +83,7 @@ export function ProductCard({ product, index = 0 }: Props) {
           </div>
           <button
             type="button"
-            aria-label={`Add ${product.name} to cart`}
+            aria-label={`Ajouter ${product.name} au panier`}
             onClick={() => add(product)}
             className="btn-icon h-8 w-8 bg-secondary text-foreground hover:bg-brand hover:text-brand-foreground"
           >

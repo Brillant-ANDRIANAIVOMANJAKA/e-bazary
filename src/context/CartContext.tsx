@@ -12,7 +12,7 @@ type Action =
   | { type: "CLEAR" }
   | { type: "HYDRATE"; items: CartItem[] };
 
-const STORAGE_KEY = "emarket_cart_v1";
+const STORAGE_KEY = "ebazary_cart_v1";
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -65,9 +65,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     items: state.items,
     add: (p, qty) => {
       dispatch({ type: "ADD", product: p, qty });
-      toast.success(`${p.name} added to cart`);
+      toast.success(`${p.name} ajouté au panier`);
     },
-    remove: (id) => { dispatch({ type: "REMOVE", id }); toast("Removed from cart"); },
+    remove: (id) => { dispatch({ type: "REMOVE", id }); toast("Retiré du panier"); },
     update: (id, qty) => dispatch({ type: "UPDATE", id, qty }),
     clear: () => dispatch({ type: "CLEAR" }),
     count: state.items.reduce((n, i) => n + i.quantity, 0),

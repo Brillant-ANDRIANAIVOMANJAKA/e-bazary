@@ -40,7 +40,7 @@ export interface Order {
   total: number;
 }
 
-const ORDERS_KEY = "emarket_orders_v1";
+const ORDERS_KEY = "ebazary_orders_v1";
 
 export const getOrders = () => readJSON<Order[]>(ORDERS_KEY, []);
 
@@ -52,13 +52,13 @@ export const findOrder = (id: string) =>
   getOrders().find((o) => o.id.toLowerCase() === id.trim().toLowerCase());
 
 export function newOrderId() {
-  return "EM-" + Date.now().toString(36).toUpperCase().slice(-6) + Math.floor(Math.random() * 90 + 10);
+  return "EB-" + Date.now().toString(36).toUpperCase().slice(-6) + Math.floor(Math.random() * 90 + 10);
 }
 
 /** Statut simule a partir de l'age de la commande. */
 export function orderStatus(order: Order) {
   const minutes = (Date.now() - new Date(order.createdAt).getTime()) / 60000;
-  const steps = ["Order placed", "Preparing", "Shipped", "Out for delivery", "Delivered"];
+  const steps = ["Commande passée", "En préparation", "Expédiée", "En cours de livraison", "Livrée"];
   const index = minutes < 2 ? 0 : minutes < 60 ? 1 : minutes < 60 * 24 ? 2 : minutes < 60 * 48 ? 3 : 4;
   return { steps, index };
 }
@@ -73,7 +73,7 @@ export function couponRate(code: string) {
 
 /* ---------- Newsletter ---------- */
 
-const NEWSLETTER_KEY = "emarket_newsletter_v1";
+const NEWSLETTER_KEY = "ebazary_newsletter_v1";
 
 export function subscribeNewsletter(email: string) {
   const list = readJSON<string[]>(NEWSLETTER_KEY, []);

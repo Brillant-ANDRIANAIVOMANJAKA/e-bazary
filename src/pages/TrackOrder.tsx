@@ -20,18 +20,18 @@ const TrackOrder = () => {
   return (
     <>
       <main className="container-x max-w-3xl py-10">
-        <PageTitle title="Track your order" subtitle="Enter the order number you received after checkout (e.g. EM-AB12CD34)." />
+        <PageTitle title="Suivre ma commande" subtitle="Saisissez le numéro reçu après votre commande (ex. EB-AB12CD34)." />
 
         <form onSubmit={submit} className="flex gap-2">
-          <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Order number" className="field flex-1 font-mono uppercase" aria-label="Order number" />
-          <button type="submit" className="btn btn-primary btn-md btn-square"><Search className="h-4 w-4" /> Track</button>
+          <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Numéro de commande" className="field flex-1 font-mono uppercase" aria-label="Numéro de commande" />
+          <button type="submit" className="btn btn-primary btn-md btn-square"><Search className="h-4 w-4" /> Suivre</button>
         </form>
 
         {current && !order && (
           <div className="mt-6 rounded-md border border-dashed border-border bg-card p-8 text-center">
             <PackageSearch className="mx-auto h-10 w-10 text-muted-foreground" />
-            <p className="mt-2 font-semibold">No order found for “{current}”.</p>
-            <p className="text-sm text-muted-foreground">Orders are stored in this browser only.</p>
+            <p className="mt-2 font-semibold">Aucune commande trouvée pour « {current} ».</p>
+            <p className="text-sm text-muted-foreground">Les commandes sont enregistrées uniquement dans ce navigateur.</p>
           </div>
         )}
 
@@ -41,7 +41,7 @@ const TrackOrder = () => {
             <div className="mt-6 rounded-md border border-border bg-card p-6">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="font-mono text-lg font-bold">{order.id}</p>
-                <p className="text-sm text-muted-foreground">Placed {new Date(order.createdAt).toLocaleString()}</p>
+                <p className="text-sm text-muted-foreground">Passée le {new Date(order.createdAt).toLocaleString("fr-FR")}</p>
               </div>
               <ol className="mt-6 grid gap-4 sm:grid-cols-5">
                 {steps.map((s, i) => (
@@ -67,14 +67,14 @@ const TrackOrder = () => {
                   </li>
                 ))}
               </ul>
-              <p className="mt-3 text-right font-bold">Total: <span className="text-brand">Ar {order.total.toFixed(2)}</span></p>
+              <p className="mt-3 text-right font-bold">Total : <span className="text-brand">Ar {order.total.toFixed(2)}</span></p>
             </div>
           );
         })()}
 
         {recent.length > 0 && (
           <div className="mt-10">
-            <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-muted-foreground">Your recent orders</h2>
+            <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-muted-foreground">Vos commandes récentes</h2>
             <div className="flex flex-wrap gap-2">
               {recent.map((o) => (
                 <button

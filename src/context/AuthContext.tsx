@@ -4,7 +4,7 @@ import { readJSON, writeJSON } from "@/lib/storage";
 // Compte de demonstration stocke localement (aucun serveur, aucun mot de passe conserve).
 export interface User { name: string; email: string }
 
-const KEY = "emarket_user_v1";
+const KEY = "ebazary_user_v1";
 
 interface AuthValue {
   user: User | null;

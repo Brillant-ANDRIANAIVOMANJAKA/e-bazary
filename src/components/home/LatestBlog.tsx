@@ -10,40 +10,40 @@ const posts = [
   {
     id: 1,
     image: blog1,
-    title: "Curated Decor: The Key to a Personal Retreat",
-    date: "Feb 28, 2026",
+    title: "Une déco choisie pour un intérieur qui vous ressemble",
+    date: "28 févr. 2026",
     comments: 18,
-    excerpt: "Discover how a curated decor approach transforms any room into a personal retreat.",
+    excerpt: "Comment une déco bien choisie transforme n'importe quelle pièce en cocon.",
     body: [
-      "A curated room is not about owning more, it is about choosing better. Start with one piece you love — a lamp, a rug, a print — and build the palette of the room around it.",
-      "Mix textures rather than colors: linen, wood, wool and ceramic add depth while keeping the space calm.",
-      "Finally, leave some empty space. Breathing room is what makes every object you keep stand out.",
+      "Une pièce réussie, ce n'est pas posséder plus, c'est mieux choisir. Partez d'un objet que vous aimez — une lampe, un tapis, une affiche — et construisez la palette autour.",
+      "Mélangez les matières plutôt que les couleurs : lin, bois, laine et céramique apportent de la profondeur tout en gardant une ambiance apaisée.",
+      "Enfin, laissez du vide. C'est l'espace autour des objets qui les met en valeur.",
     ],
   },
   {
     id: 2,
     image: blog2,
-    title: "Designing the Perfect Workspace at Home",
-    date: "Mar 12, 2026",
+    title: "Aménager le bureau idéal à la maison",
+    date: "12 mars 2026",
     comments: 9,
-    excerpt: "Productivity meets aesthetics. Our top tips to design a workspace you actually love.",
+    excerpt: "Productivité et esthétique : nos conseils pour un coin bureau que vous aimerez vraiment.",
     body: [
-      "Place your desk near natural light, ideally perpendicular to the window to avoid glare on your screen.",
-      "Invest first in a good chair: you will spend more time in it than in any other piece of furniture.",
-      "Keep cables hidden and only the essentials on the desk. A tidy surface means a clearer mind.",
+      "Placez votre bureau près de la lumière naturelle, idéalement perpendiculaire à la fenêtre pour éviter les reflets.",
+      "Investissez d'abord dans une bonne chaise : vous y passerez plus de temps que sur n'importe quel autre meuble.",
+      "Cachez les câbles et ne gardez que l'essentiel sur le bureau. Espace rangé, esprit clair.",
     ],
   },
   {
     id: 3,
     image: blog3,
-    title: "5 Scandinavian Design Principles to Live By",
-    date: "Apr 04, 2026",
+    title: "5 principes du design scandinave",
+    date: "4 avr. 2026",
     comments: 24,
-    excerpt: "Light, function, simplicity — the timeless rules behind Scandinavian interiors.",
+    excerpt: "Lumière, fonction, simplicité : les règles intemporelles des intérieurs scandinaves.",
     body: [
-      "1. Light first: pale walls and floors reflect daylight through long winters.",
-      "2. Function over decoration: every object should be useful or deeply loved.",
-      "3. Natural materials: wood, wool and stone bring warmth. 4. Soft neutrals with a single accent color. 5. Hygge: candles, throws and cosy corners make a house a home.",
+      "1. La lumière d'abord : murs et sols clairs reflètent la lumière du jour.",
+      "2. La fonction avant la déco : chaque objet doit être utile ou vraiment aimé.",
+      "3. Des matières naturelles : bois, laine et pierre réchauffent. 4. Des tons neutres avec une seule couleur forte. 5. Le hygge : bougies, plaids et coins douillets font d'une maison un foyer.",
     ],
   },
 ];
@@ -55,7 +55,7 @@ export function LatestBlog() {
   return (
     <section id="blog" className="mt-12 scroll-mt-4">
       <div className="mb-4 border-b border-border">
-        <span className="section-title">Latest Blog</span>
+        <span className="section-title">Derniers articles</span>
       </div>
       <div className="grid gap-6 md:grid-cols-3">
         {posts.map((p, i) => (
@@ -68,7 +68,7 @@ export function LatestBlog() {
             whileHover={{ y: -4 }}
             className="group overflow-hidden rounded-md border border-border bg-card transition-shadow hover:shadow-lg"
           >
-            <button type="button" onClick={() => setOpenId(p.id)} className="block w-full text-left" aria-label={`Read: ${p.title}`}>
+            <button type="button" onClick={() => setOpenId(p.id)} className="block w-full text-left" aria-label={`Lire : ${p.title}`}>
               <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                 <img src={p.image} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               </div>
@@ -76,14 +76,14 @@ export function LatestBlog() {
             <div className="p-4">
               <div className="flex items-center gap-3 text-[10px] uppercase tracking-wider text-muted-foreground">
                 <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {p.date}</span>
-                <span className="flex items-center gap-1"><MessageCircle className="h-3 w-3" /> {p.comments} Comments</span>
+                <span className="flex items-center gap-1"><MessageCircle className="h-3 w-3" /> {p.comments} commentaires</span>
               </div>
               <h3 className="mt-2 line-clamp-2 text-base font-bold leading-snug group-hover:text-brand transition-colors">
                 {p.title}
               </h3>
               <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">{p.excerpt}</p>
               <button type="button" onClick={() => setOpenId(p.id)} className="btn-link mt-3">
-                Read more <ArrowRight className="h-3 w-3" />
+                Lire la suite <ArrowRight className="h-3 w-3" />
               </button>
             </div>
           </motion.article>
@@ -107,7 +107,7 @@ export function LatestBlog() {
                 <div className="mt-6 flex flex-wrap gap-2 border-t border-border pt-4">
                   {posts.filter((x) => x.id !== post.id).map((x) => (
                     <button key={x.id} type="button" onClick={() => setOpenId(x.id)} className="btn btn-outline btn-sm normal-case">
-                      Next: {x.title.slice(0, 32)}{x.title.length > 32 ? "..." : ""}
+                      À lire : {x.title.slice(0, 32)}{x.title.length > 32 ? "..." : ""}
                     </button>
                   ))}
                 </div>

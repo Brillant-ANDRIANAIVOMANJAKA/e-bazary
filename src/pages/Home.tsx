@@ -18,20 +18,26 @@ import { products, shopUrl, Category } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 
 const Home = () => {
-  const [trendingTab, setTrendingTab] = useState("All");
+  const [trendingTab, setTrendingTab] = useState("Tout");
   const { add } = useCart();
 
   // Colonne gauche "sticky" : elle defile avec la page jusqu'a ce que son bas
   // soit visible, puis reste fixe, pour eviter un grand vide a gauche.
   const leftColRef = useRef<HTMLDivElement>(null);
-  const [leftTop, setLeftTop] = useState(16);
+  const [leftTop, setLeftTop] = useState(140);
   useEffect(() => {
     const el = leftColRef.current;
     if (!el) return;
-    const update = () => setLeftTop(Math.min(16, window.innerHeight - el.offsetHeight - 16));
+    const update = () => {
+      // Sous l'en-tete sticky ; si la colonne est plus haute que l'ecran, on la cale par le bas.
+      const headerH = document.getElementById("site-header")?.offsetHeight ?? 0;
+      setLeftTop(Math.min(headerH + 16, window.innerHeight - el.offsetHeight - 16));
+    };
     update();
     const ro = new ResizeObserver(update);
     ro.observe(el);
+    const header = document.getElementById("site-header");
+    if (header) ro.observe(header);
     window.addEventListener("resize", update);
     return () => {
       ro.disconnect();
@@ -40,8 +46,15 @@ const Home = () => {
   }, []);
 
   const dailyDeals = products.filter((p) => p.dailyDeal);
-  const tabs = ["All", "Furniture", "Electronics", "Fashion", "Beauty", "Home"] as const;
-  const tabCategory = trendingTab === "All" ? undefined : (trendingTab.toLowerCase() as Category);
+  const TABS: { label: string; category?: Category }[] = [
+    { label: "Tout" },
+    { label: "Meubles", category: "furniture" },
+    { label: "Électronique", category: "electronics" },
+    { label: "Mode", category: "fashion" },
+    { label: "Beauté", category: "beauty" },
+    { label: "Maison", category: "home" },
+  ];
+  const tabCategory = TABS.find((t) => t.label === trendingTab)?.category;
   const trending = useMemo(() => {
     if (!tabCategory) return products.filter((p) => p.trending).slice(0, 5);
     return products
@@ -66,10 +79,10 @@ const Home = () => {
             {/* Daily deals */}
             <section id="deals" className="mt-10 scroll-mt-4">
               <SectionHeader
-                title="Daily Deals"
+                title="Promos du jour"
                 right={<div className="hidden md:block"><CountdownTimer /></div>}
               />
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 xl:grid-cols-2">
                 {dailyDeals.map((p, i) => (
                   <motion.div
                     key={p.id}
@@ -91,8 +104,8 @@ const Home = () => {
                       </div>
                       <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">{p.description}</p>
                       <div className="mt-2 flex justify-between text-xs">
-                        <span>Available: <strong>{p.stock}</strong></span>
-                        <span>Sold: <strong>{p.sold}</strong></span>
+                        <span>Disponible : <strong>{p.stock}</strong></span>
+                        <span>Vendus : <strong>{p.sold}</strong></span>
                       </div>
                       <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-secondary">
                         <div
@@ -100,10 +113,10 @@ const Home = () => {
                           style={{ width: `${(p.sold / (p.sold + p.stock)) * 100}%` }}
                         />
                       </div>
-                      <p className="mt-3 text-[10px] font-bold uppercase">Hurry Up! Offers end in:</p>
+                      <p className="mt-3 text-[10px] font-bold uppercase">Vite ! L'offre se termine dans :</p>
                       <div className="mt-1"><CountdownTimer /></div>
                       <button type="button" onClick={() => add(p)} className="btn btn-primary btn-sm mt-3 self-start">
-                        <ShoppingCart className="h-3.5 w-3.5" /> Add to cart
+                        <ShoppingCart className="h-3.5 w-3.5" /> Ajouter au panier
                       </button>
                     </div>
                   </motion.div>
@@ -116,13 +129,13 @@ const Home = () => {
             {/* Trending */}
             <section id="trending" className="mt-4 scroll-mt-4">
               <SectionHeader
-                title="Trending Items"
-                tabs={[...tabs]}
+                title="Tendances"
+                tabs={TABS.map((t) => t.label)}
                 active={trendingTab}
                 onTabChange={setTrendingTab}
                 right={
                   <Link to={shopUrl(tabCategory)} className="btn-link mb-2">
-                    View all <ArrowRight className="h-3 w-3" />
+                    Voir tout <ArrowRight className="h-3 w-3" />
                   </Link>
                 }
               />
@@ -137,14 +150,14 @@ const Home = () => {
                 viewport={{ once: true }}
                 className="relative overflow-hidden rounded-md bg-gradient-to-br from-secondary to-accent p-6"
               >
-                <p className="text-xs font-bold uppercase tracking-widest text-brand">Up to 50% OFF</p>
-                <p className="mt-1 text-2xl font-extrabold">Armchair Furniture</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-brand">Jusqu'à -50 %</p>
+                <p className="mt-1 text-2xl font-extrabold">Fauteuils</p>
                 <Link to={shopUrl("furniture")} className="btn-link mt-3">
-                  Shop now <ArrowRight className="h-3 w-3" />
+                  Acheter <ArrowRight className="h-3 w-3" />
                 </Link>
                 <img
                   src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=400&q=70"
-                  alt="Armchair"
+                  alt="Fauteuil"
                   loading="lazy"
                   className="mt-4 h-40 w-full object-contain"
                 />

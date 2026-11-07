@@ -22,13 +22,13 @@ export function QtyControl({
         className,
       )}
     >
-      <button type="button" aria-label="Decrease quantity" className="qty-btn" disabled={value <= 1} onClick={() => onChange(value - 1)}>
+      <button type="button" aria-label="Diminuer la quantité" className="qty-btn" disabled={value <= 1} onClick={() => onChange(value - 1)}>
         <Minus className="h-3.5 w-3.5" />
       </button>
       <span className={cn("text-center font-semibold tabular-nums", size === "sm" ? "w-7 text-sm" : "w-10")} aria-live="polite">
         {value}
       </span>
-      <button type="button" aria-label="Increase quantity" className="qty-btn" disabled={value >= max} onClick={() => onChange(value + 1)}>
+      <button type="button" aria-label="Augmenter la quantité" className="qty-btn" disabled={value >= max} onClick={() => onChange(value + 1)}>
         <Plus className="h-3.5 w-3.5" />
       </button>
     </div>

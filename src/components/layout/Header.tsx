@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Search, ShoppingCart, Heart, User, Phone, Truck, Menu, Sun, Moon, ChevronDown, LogOut } from "lucide-react";
@@ -18,10 +18,10 @@ import { Sheet, SheetClose, SheetContent, SheetTitle } from "@/components/ui/she
 import { cn } from "@/lib/utils";
 
 export const NAV_LINKS = [
-  { to: "/", label: "Home" },
-  { to: "/shop", label: "Shop" },
-  { to: "/#deals", label: "Deals" },
-  { to: "/#trending", label: "Best-selling" },
+  { to: "/", label: "Accueil" },
+  { to: "/shop", label: "Boutique" },
+  { to: "/#deals", label: "Promos" },
+  { to: "/#trending", label: "Top ventes" },
   { to: "/#blog", label: "Blog" },
   { to: "/page/contact", label: "Contact" },
 ];
@@ -54,6 +54,28 @@ export function Header() {
   const [q, setQ] = useState(params.get("q") ?? "");
   const [cat, setCat] = useState(params.get("category") ?? "");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+
+  // Ombre + barre plus compacte une fois qu'on a defile.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Expose la hauteur de l'en-tete sticky (--header-h) pour les autres elements sticky
+  // et pour le defilement vers les ancres.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const set = () => document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Garde le champ de recherche synchronise avec l'URL.
   useEffect(() => {
@@ -70,19 +92,19 @@ export function Header() {
     to.includes("#") ? location.pathname === "/" && location.hash === to.slice(1) : location.pathname === to && !location.hash;
 
   return (
-    <header className="w-full">
-      {/* Top promo bar */}
+    <>
+      {/* Top promo bar (defile normalement) */}
       <div className="bg-header-top text-white/80 text-xs">
         <div className="container-x flex h-9 items-center justify-between">
           <p className="hidden md:block">
-            Welcome to <span className="font-semibold text-white">eMarket</span> · Free shipping over Ar4900 — Code:{" "}
+            Bienvenue sur <span className="font-semibold text-white">e-bazary</span> · Livraison offerte dès Ar 4900 — Code :{" "}
             <span className="font-semibold text-brand">Brillant2026</span>
           </p>
           <div className="ml-auto flex items-center gap-1">
             <button
               type="button"
               onClick={toggle}
-              aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+              aria-label={theme === "light" ? "Passer en mode sombre" : "Passer en mode clair"}
               className="btn-icon h-7 w-7 hover:bg-white/10 hover:text-white"
             >
               {theme === "light" ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
@@ -91,13 +113,25 @@ export function Header() {
         </div>
       </div>
 
-      {/* Main bar */}
-      <div className="bg-header-bar text-white">
-        <div className="container-x flex h-14 items-center gap-3 md:h-16 md:gap-4 lg:gap-6">
+      {/* Barre principale + recherche : sticky */}
+      <header
+        id="site-header"
+        ref={headerRef}
+        className={cn(
+          "sticky top-0 z-40 w-full bg-header-bar text-white transition-shadow duration-300",
+          scrolled && "shadow-[0_6px_24px_-6px_rgba(0,0,0,0.45)]",
+        )}
+      >
+        <div
+          className={cn(
+            "container-x flex items-center gap-3 transition-[height] duration-300 md:gap-4 lg:gap-6",
+            scrolled ? "h-12 md:h-14" : "h-14 md:h-16",
+          )}
+        >
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
+            aria-label="Ouvrir le menu"
             className="btn-icon -ml-2 lg:hidden hover:bg-white/10"
           >
             <Menu className="h-5 w-5" />
@@ -105,11 +139,11 @@ export function Header() {
 
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="h-9 w-9 rounded-full overflow-hidden">
-              <img src="/e-market.png" alt="e-market logo" className="h-full w-full object-cover" />
+              <img src="/e-bazary.png" alt="Logo e-bazary" className="h-full w-full object-cover" />
             </div>
             <div className="leading-tight">
-              <p className="font-extrabold text-lg tracking-tight">e-market</p>
-              <p className="text-[9px] uppercase tracking-widest opacity-60">all in one store</p>
+              <p className="font-extrabold text-lg tracking-tight">e-bazary</p>
+              <p className="text-[9px] uppercase tracking-widest opacity-60">tout en un seul endroit</p>
             </div>
           </Link>
 
@@ -121,51 +155,51 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center gap-3 text-xs">
+          <div className="ml-auto flex items-center gap-3 whitespace-nowrap text-xs">
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className="hidden md:flex items-center gap-1.5 rounded px-2 py-1 hover:text-brand transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
-                  <User className="h-4 w-4" /> Hi, {user.name.split(" ")[0]} <ChevronDown className="h-3 w-3" />
+                  <User className="h-4 w-4" /> Salut, {user.name.split(" ")[0]} <ChevronDown className="h-3 w-3" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onSelect={() => navigate("/account")}>My account</DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => navigate("/track")}>My orders</DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => navigate("/wishlist")}>Wishlist</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => navigate("/account")}>Mon compte</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => navigate("/track")}>Mes commandes</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => navigate("/wishlist")}>Favoris</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onSelect={logout}>
-                    <LogOut className="mr-2 h-4 w-4" /> Sign out
+                    <LogOut className="mr-2 h-4 w-4" /> Se déconnecter
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link to="/account" className="hidden md:flex items-center gap-1.5 hover:text-brand transition">
-                <User className="h-4 w-4" /> Login / Register
+              <Link to="/account" title="Connexion / Inscription" className="hidden md:flex items-center gap-1.5 hover:text-brand transition">
+                <User className="h-4 w-4" /> <span className="lg:hidden xl:inline">Connexion / Inscription</span>
               </Link>
             )}
             <span className="hidden md:inline opacity-30">|</span>
-            <Link to="/track" className="hidden md:flex items-center gap-1.5 hover:text-brand transition">
-              <Truck className="h-4 w-4" /> Track Order
+            <Link to="/track" title="Suivi de commande" className="hidden md:flex items-center gap-1.5 hover:text-brand transition">
+              <Truck className="h-4 w-4" /> <span className="lg:hidden xl:inline">Suivi</span>
             </Link>
-            <Link to="/cart" aria-label={`Cart (${count})`} className="btn-icon relative -mr-2 hover:bg-white/10 md:hidden">
+            <Link to="/cart" aria-label={`Panier (${count})`} className="btn-icon relative -mr-2 hover:bg-white/10 md:hidden">
               <ShoppingCart className="h-5 w-5" />
               <Badge value={count} className="-top-0.5 -right-0.5" />
             </Link>
-            <span className="hidden xl:inline opacity-30">|</span>
-            <a href="tel:+261346610839" className="hidden xl:flex items-center gap-1.5 opacity-80 hover:text-brand hover:opacity-100 transition">
+            <span className="hidden 2xl:inline opacity-30">|</span>
+            <a href="tel:+261346610839" className="hidden 2xl:flex items-center gap-1.5 opacity-80 hover:text-brand hover:opacity-100 transition">
               <Phone className="h-4 w-4" /> +261 34 66 108 39
             </a>
           </div>
         </div>
 
         {/* Search row */}
-        <div className="container-x flex items-center gap-3 pb-3 md:pb-4">
+        <div className={cn("container-x flex items-center gap-3 transition-[padding] duration-300", scrolled ? "pb-2.5" : "pb-3 md:pb-4")}>
           <DropdownMenu>
             <DropdownMenuTrigger className="btn btn-primary btn-square hidden h-11 px-4 text-sm md:inline-flex">
-              <Menu className="h-4 w-4" /> All Departments <ChevronDown className="h-3.5 w-3.5" />
+              <Menu className="h-4 w-4" /> Tous les rayons <ChevronDown className="h-3.5 w-3.5" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-60">
               <DropdownMenuItem onSelect={() => navigate("/shop")} className="font-semibold">
-                All products
+                Tous les produits
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               {categories.map((c) => (
@@ -180,10 +214,10 @@ export function Header() {
             <select
               value={cat}
               onChange={(e) => setCat(e.target.value)}
-              aria-label="Category"
+              aria-label="Catégorie"
               className="hidden md:block h-full max-w-[170px] bg-secondary px-3 text-xs font-medium border-r border-border outline-none cursor-pointer"
             >
-              <option value="">All Categories</option>
+              <option value="">Toutes catégories</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>{c.label}</option>
               ))}
@@ -192,23 +226,23 @@ export function Header() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               type="search"
-              aria-label="Search products"
-              placeholder="Search products..."
+              aria-label="Rechercher des produits"
+              placeholder="Rechercher un produit..."
               className="flex-1 min-w-0 px-4 text-sm outline-none bg-transparent"
             />
-            <button type="submit" aria-label="Search" className="h-full w-12 bg-brand text-brand-foreground hover:bg-brand-hover transition flex items-center justify-center active:scale-95">
+            <button type="submit" aria-label="Rechercher" className="h-full w-12 bg-brand text-brand-foreground hover:bg-brand-hover transition flex items-center justify-center active:scale-95">
               <Search className="h-4 w-4" />
             </button>
           </form>
 
           <div className="hidden items-center gap-3 md:flex">
-            <Link to="/wishlist" aria-label={`Wishlist (${wishCount})`} className="btn-icon relative hover:bg-white/10 hover:text-brand">
+            <Link to="/wishlist" aria-label={`Favoris (${wishCount})`} className="btn-icon relative hover:bg-white/10 hover:text-brand">
               <Heart className="h-5 w-5" />
               <Badge value={wishCount} className="-top-0.5 -right-0.5" />
             </Link>
             <Link
               to="/cart"
-              aria-label={`Cart (${count})`}
+              aria-label={`Panier (${count})`}
               className="relative flex items-center gap-2 rounded-md p-2 transition hover:bg-white/15 md:bg-white/10 md:px-3"
             >
               <div className="relative">
@@ -216,13 +250,13 @@ export function Header() {
                 <Badge value={count} className="-top-2 -right-2" />
               </div>
               <div className="hidden text-left leading-tight md:block">
-                <p className="text-[10px] opacity-70">MY CART</p>
+                <p className="text-[10px] opacity-70">MON PANIER</p>
                 <p className="text-sm font-bold">Ar {subtotal.toFixed(2)}</p>
               </div>
             </Link>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Menu mobile */}
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
@@ -235,7 +269,7 @@ export function Header() {
               </SheetClose>
             ))}
           </nav>
-          <p className="border-t border-border px-5 pt-4 pb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Categories</p>
+          <p className="border-t border-border px-5 pt-4 pb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Catégories</p>
           <ul className="pb-2">
             {categories.map((c) => (
               <li key={c.id}>
@@ -249,15 +283,15 @@ export function Header() {
           </ul>
           <div className="grid gap-2 border-t border-border p-5">
             <SheetClose asChild>
-              <Link to="/account" className="btn btn-outline btn-md"><User className="h-4 w-4" /> {user ? "My account" : "Login / Register"}</Link>
+              <Link to="/account" className="btn btn-outline btn-md"><User className="h-4 w-4" /> {user ? "Mon compte" : "Connexion / Inscription"}</Link>
             </SheetClose>
             <SheetClose asChild>
-              <Link to="/track" className="btn btn-outline btn-md"><Truck className="h-4 w-4" /> Track order</Link>
+              <Link to="/track" className="btn btn-outline btn-md"><Truck className="h-4 w-4" /> Suivi de commande</Link>
             </SheetClose>
             <a href="tel:+261346610839" className="btn btn-ghost btn-md"><Phone className="h-4 w-4" /> +261 34 66 108 39</a>
           </div>
         </SheetContent>
       </Sheet>
-    </header>
+    </>
   );
 }

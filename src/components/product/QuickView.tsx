@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Heart, ShoppingCart } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { Product } from "@/data/products";
+import { Product, categoryLabel } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { Rating } from "@/components/common/Rating";
@@ -24,7 +24,7 @@ export function QuickView({ product, open, onOpenChange }: { product: Product; o
             {product.discount && <span className="badge-sale">-{product.discount}%</span>}
           </div>
           <div className="flex flex-col p-6">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{product.category}</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{categoryLabel(product.category)}</p>
             <DialogTitle className="mt-1 text-2xl font-extrabold leading-tight">{product.name}</DialogTitle>
             <Rating value={product.rating} reviews={product.reviews} className="mt-2" />
             <div className="mt-3 flex items-baseline gap-2">
@@ -33,7 +33,7 @@ export function QuickView({ product, open, onOpenChange }: { product: Product; o
             </div>
             <DialogDescription className="mt-3 text-sm">{product.description}</DialogDescription>
             <p className="mt-2 text-xs text-muted-foreground">
-              Availability: <span className="font-bold text-foreground">{product.stock} in stock</span>
+              Disponibilité : <span className="font-bold text-foreground">{product.stock} en stock</span>
             </p>
 
             <div className="mt-auto flex flex-wrap items-center gap-2 pt-6">
@@ -43,11 +43,11 @@ export function QuickView({ product, open, onOpenChange }: { product: Product; o
                 className="btn btn-primary btn-sm flex-1"
                 onClick={() => { add(product, qty); onOpenChange(false); setQty(1); }}
               >
-                <ShoppingCart className="h-4 w-4" /> Add to cart
+                <ShoppingCart className="h-4 w-4" /> Ajouter au panier
               </button>
               <button
                 type="button"
-                aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
+                aria-label={liked ? "Retirer des favoris" : "Ajouter aux favoris"}
                 aria-pressed={liked}
                 onClick={() => wishlist.toggle(product)}
                 className={cn("btn-icon h-9 w-9 border border-border", liked ? "border-brand bg-brand/15 text-brand" : "hover:border-brand hover:text-brand")}
@@ -56,7 +56,7 @@ export function QuickView({ product, open, onOpenChange }: { product: Product; o
               </button>
             </div>
             <Link to={`/product/${product.id}`} onClick={() => onOpenChange(false)} className="btn-link mt-4 self-start">
-              View full details <ArrowRight className="h-3 w-3" />
+              Voir la fiche complète <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
         </div>

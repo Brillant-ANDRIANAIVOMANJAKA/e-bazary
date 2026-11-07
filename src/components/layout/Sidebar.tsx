@@ -23,13 +23,13 @@ export function Sidebar({ active, query, showPromo = true }: Props) {
     <aside className="w-full">
       <div className="rounded-md border border-border overflow-hidden bg-card">
         <div className="bg-primary text-primary-foreground px-4 py-3 text-sm font-bold uppercase tracking-wider">
-          All Categories
+          Toutes les catégories
         </div>
         <ul>
           <li>
             <Link to={shopUrl(undefined, query)} className={item(active === null)}>
               <span className="flex items-center gap-2">
-                <LayoutGrid className="h-4 w-4 shrink-0 text-brand" /> All Products
+                <LayoutGrid className="h-4 w-4 shrink-0 text-brand" /> Tous les produits
               </span>
               <ChevronRight className="h-3.5 w-3.5 opacity-50 transition-transform group-hover:translate-x-0.5" />
             </Link>
@@ -50,11 +50,11 @@ export function Sidebar({ active, query, showPromo = true }: Props) {
 
       {showPromo && (
         <div className="mt-4 rounded-md border border-border overflow-hidden bg-gradient-to-br from-primary to-header-top text-primary-foreground p-5">
-          <p className="text-xs uppercase tracking-widest opacity-70">Interior Design</p>
+          <p className="text-xs uppercase tracking-widest opacity-70">Décoration intérieure</p>
           <p className="mt-1 text-2xl font-extrabold text-brand">Ar 4900.89</p>
-          <p className="mt-1 text-xs opacity-80">Premium home collection</p>
+          <p className="mt-1 text-xs opacity-80">Collection maison premium</p>
           <Link to={shopUrl("furniture")} className="btn-link mt-3">
-            Shop now <ArrowRight className="h-3 w-3" />
+            Acheter <ArrowRight className="h-3 w-3" />
           </Link>
         </div>
       )}

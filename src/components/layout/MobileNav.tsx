@@ -12,16 +12,16 @@ export function MobileNav() {
   const { count: wishCount } = useWishlist();
 
   const items = [
-    { to: "/", label: "Home", icon: Home, active: pathname === "/" },
-    { to: "/shop", label: "Shop", icon: LayoutGrid, active: pathname === "/shop" || pathname.startsWith("/product") },
-    { to: "/wishlist", label: "Wishlist", icon: Heart, active: pathname === "/wishlist", badge: wishCount },
-    { to: "/cart", label: "Cart", icon: ShoppingCart, active: pathname === "/cart" || pathname === "/checkout", badge: count },
-    { to: "/account", label: "Account", icon: User, active: pathname === "/account" || pathname === "/track" },
+    { to: "/", label: "Accueil", icon: Home, active: pathname === "/" },
+    { to: "/shop", label: "Boutique", icon: LayoutGrid, active: pathname === "/shop" || pathname.startsWith("/product") },
+    { to: "/wishlist", label: "Favoris", icon: Heart, active: pathname === "/wishlist", badge: wishCount },
+    { to: "/cart", label: "Panier", icon: ShoppingCart, active: pathname === "/cart" || pathname === "/checkout", badge: count },
+    { to: "/account", label: "Compte", icon: User, active: pathname === "/account" || pathname === "/track" },
   ];
 
   return (
     <nav
-      aria-label="Mobile navigation"
+      aria-label="Navigation mobile"
       className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur md:hidden"
     >
       <ul className="grid grid-cols-5">

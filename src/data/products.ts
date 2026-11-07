@@ -38,14 +38,14 @@ export interface Product {
 }
 
 export const categories: { id: Category; label: string; icon: LucideIcon }[] = [
-  { id: "furniture", label: "Furniture & Home", icon: Sofa },
-  { id: "fashion", label: "Fashion & Apparel", icon: Shirt },
-  { id: "electronics", label: "Electronics", icon: Smartphone },
-  { id: "beauty", label: "Health & Beauty", icon: HeartPulse },
-  { id: "sports", label: "Sports & Toys", icon: Dumbbell },
-  { id: "home", label: "Home Textile", icon: BedDouble },
-  { id: "toys", label: "Gifts & Games", icon: Gift },
-  { id: "jewelry", label: "Jewelry & Bags", icon: Gem },
+  { id: "furniture", label: "Meubles & Maison", icon: Sofa },
+  { id: "fashion", label: "Mode & Vêtements", icon: Shirt },
+  { id: "electronics", label: "Électronique", icon: Smartphone },
+  { id: "beauty", label: "Santé & Beauté", icon: HeartPulse },
+  { id: "sports", label: "Sports & Loisirs", icon: Dumbbell },
+  { id: "home", label: "Linge de maison", icon: BedDouble },
+  { id: "toys", label: "Cadeaux & Jeux", icon: Gift },
+  { id: "jewelry", label: "Bijoux & Sacs", icon: Gem },
 ];
 
 // Fonction image (Unsplash stable)
@@ -55,7 +55,7 @@ const img = (id: string, w = 600) =>
 export const products: Product[] = [
   {
     id: "p1",
-    name: "Sweetheart Lounge Chair",
+    name: "Fauteuil lounge Sweetheart",
     price: 15000.98,
     oldPrice: 89000.59,
     discount: 75,
@@ -67,11 +67,11 @@ export const products: Product[] = [
     sold: 28,
     dailyDeal: true,
     description:
-      "Premium upholstered lounge chair with solid wood legs. Designed for comfort and style.",
+      "Fauteuil lounge rembourré haut de gamme, pieds en bois massif. Pensé pour le confort et le style.",
   },
   {
     id: "p2",
-    name: "Minimalist Ceramic Vase",
+    name: "Vase en céramique minimaliste",
     price: 15000.98,
     oldPrice: 89000.59,
     discount: 75,
@@ -83,11 +83,11 @@ export const products: Product[] = [
     sold: 42,
     dailyDeal: true,
     description:
-      "Hand-crafted ceramic vase, perfect for fresh or dried flower arrangements.",
+      "Vase en céramique fait main, idéal pour les fleurs fraîches ou séchées.",
   },
   {
     id: "p3",
-    name: "Modern Velvet Ottoman",
+    name: "Pouf moderne en velours",
     price: 4900.8,
     oldPrice: 9900.0,
     discount: 50,
@@ -99,11 +99,11 @@ export const products: Product[] = [
     sold: 56,
     trending: true,
     description:
-      "Plush velvet ottoman in soft grey. Doubles as extra seating or a footrest.",
+      "Pouf en velours gris doux. Sert d'assise d'appoint ou de repose-pieds.",
   },
   {
     id: "p4",
-    name: "Floral Throw Pillow",
+    name: "Coussin à motif floral",
     price: 24000.9,
     oldPrice: 49000.8,
     discount: 50,
@@ -115,11 +115,11 @@ export const products: Product[] = [
     sold: 110,
     trending: true,
     description:
-      "Hand-woven indoor/outdoor reversible cushion. Bold floral pattern.",
+      "Coussin réversible tissé main, intérieur/extérieur. Motif floral éclatant.",
   },
   {
     id: "p5",
-    name: "Yellow Designer Armchair",
+    name: "Fauteuil design jaune",
     price: 4980,
     oldPrice: 6980,
     discount: 25,
@@ -131,11 +131,11 @@ export const products: Product[] = [
     sold: 18,
     trending: true,
     description:
-      "Bold mustard yellow armchair. Statement piece for the modern living room.",
+      "Fauteuil jaune moutarde audacieux. La pièce forte d'un salon moderne.",
   },
   {
     id: "p6",
-    name: "Knitted Fleece Throw",
+    name: "Plaid en polaire tricoté",
     price: 4900.8,
     oldPrice: 9900.0,
     discount: 50,
@@ -147,11 +147,11 @@ export const products: Product[] = [
     sold: 290,
     trending: true,
     description:
-      "Soft knitted fleece throw blanket. Perfect for cozy evenings.",
+      "Plaid doux en polaire tricotée. Parfait pour les soirées cocooning.",
   },
   {
     id: "p7",
-    name: "Bella Wardrobe Cabinet",
+    name: "Armoire Bella",
     price: 4980,
     oldPrice: 7980,
     image: img("photo-1555041469-a586c61ea9bc"),
@@ -161,11 +161,11 @@ export const products: Product[] = [
     stock: 6,
     sold: 12,
     trending: true,
-    description: "Solid wood wardrobe with sliding doors and built-in mirror.",
+    description: "Armoire en bois massif avec portes coulissantes et miroir intégré.",
   },
   {
     id: "p8",
-    name: "Wireless Studio Headphones",
+    name: "Casque studio sans fil",
     price: 6000.86,
     oldPrice: 8400.99,
     discount: 28,
@@ -176,11 +176,11 @@ export const products: Product[] = [
     stock: 40,
     sold: 880,
     description:
-      "Premium over-ear headphones with active noise cancellation and 40h battery life.",
+      "Casque circum-auriculaire haut de gamme avec réduction de bruit active et 40 h d'autonomie.",
   },
   {
     id: "p9",
-    name: "Smartwatch 2.0 LTE Wifi",
+    name: "Montre connectée 2.0 LTE Wifi",
     price: 6000.86,
     oldPrice: 8400.99,
     discount: 28,
@@ -191,11 +191,11 @@ export const products: Product[] = [
     stock: 60,
     sold: 540,
     description:
-      "Track fitness, calls, and notifications. Waterproof. LTE + Wifi.",
+      "Suivi sportif, appels et notifications. Étanche. LTE + Wifi.",
   },
   {
     id: "p10",
-    name: 'Notebook Pro Spectre 15"',
+    name: 'Ordinateur portable Pro Spectre 15"',
     price: 6000.86,
     oldPrice: 8400.99,
     discount: 28,
@@ -206,11 +206,11 @@ export const products: Product[] = [
     stock: 12,
     sold: 230,
     description:
-      'Ultra-thin laptop with 15" 4K display, 16GB RAM, and all-day battery.',
+      'Ordinateur ultra-fin, écran 15" 4K, 16 Go de RAM et autonomie pour la journée.',
   },
   {
     id: "p11",
-    name: "Vintage Travel Poster",
+    name: "Affiche de voyage vintage",
     price: 6000.86,
     oldPrice: 8400.99,
     discount: 28,
@@ -221,11 +221,11 @@ export const products: Product[] = [
     stock: 100,
     sold: 76,
     description:
-      "Beautifully printed vintage-style travel poster on premium matte paper.",
+      "Affiche de voyage style vintage imprimée sur papier mat premium.",
   },
   {
     id: "p12",
-    name: "Classic Leather Sneakers",
+    name: "Baskets classiques en cuir",
     price: 8900.0,
     oldPrice: 12900.0,
     discount: 31,
@@ -236,11 +236,11 @@ export const products: Product[] = [
     stock: 45,
     sold: 600,
     description:
-      "Timeless leather sneakers with cushioned sole. Available in multiple sizes.",
+      "Baskets en cuir intemporelles à semelle amortie. Disponibles en plusieurs pointures.",
   },
   {
     id: "p13",
-    name: "Aurora Lipstick Set",
+    name: "Coffret rouges à lèvres Aurora",
     price: 32000.0,
     oldPrice: 48000.0,
     discount: 33,
@@ -250,11 +250,11 @@ export const products: Product[] = [
     reviews: 211,
     stock: 80,
     sold: 450,
-    description: "Six rich, long-lasting shades. Matte and satin finishes.",
+    description: "Six teintes intenses longue tenue. Finitions mates et satinées.",
   },
   {
     id: "p14",
-    name: "Pro Football Match Ball",
+    name: "Ballon de football Pro Match",
     price: 39000.9,
     oldPrice: 59000.9,
     discount: 33,
@@ -264,11 +264,11 @@ export const products: Product[] = [
     reviews: 142,
     stock: 30,
     sold: 220,
-    description: "FIFA-approved match ball. Hand-stitched, tournament-grade.",
+    description: "Ballon de match homologué FIFA. Cousu main, qualité compétition.",
   },
  {
   id: "p15",
-  name: "Gold Hoop Earrings",
+  name: "Créoles plaquées or",
   price: 78000.0,
   oldPrice: 120000.0,
   discount: 35,
@@ -278,11 +278,11 @@ export const products: Product[] = [
   reviews: 89,
   stock: 25,
   sold: 134,
-  description: "18k gold-plated hoop earrings. Hypoallergenic, lightweight.",
+  description: "Créoles plaquées or 18 carats. Hypoallergéniques et légères.",
 },
   {
     id: "p16",
-    name: "Wooden Building Blocks",
+    name: "Jeu de construction en bois",
     price: 2400.5,
     oldPrice: 3900.9,
     discount: 38,
@@ -293,7 +293,7 @@ export const products: Product[] = [
     stock: 70,
     sold: 410,
     description:
-      "100-piece natural wood building set. Safe, sustainable, endlessly creative.",
+      "Jeu de construction de 100 pièces en bois naturel. Sûr, durable et créatif.",
   },
 ];
 

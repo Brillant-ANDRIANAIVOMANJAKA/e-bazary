@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { Product, findProduct } from "@/data/products";
 import { readJSON, writeJSON } from "@/lib/storage";
 
-const KEY = "emarket_wishlist_v1";
+const KEY = "ebazary_wishlist_v1";
 
 interface WishlistValue {
   ids: string[];
@@ -25,10 +25,10 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   const toggle = useCallback((p: Product) => {
     if (ids.includes(p.id)) {
       setIds((prev) => prev.filter((x) => x !== p.id));
-      toast(`${p.name} removed from wishlist`);
+      toast(`${p.name} retiré des favoris`);
     } else {
       setIds((prev) => (prev.includes(p.id) ? prev : [...prev, p.id]));
-      toast.success(`${p.name} added to wishlist`);
+      toast.success(`${p.name} ajouté aux favoris`);
     }
   }, [ids]);
 
